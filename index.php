@@ -16,16 +16,18 @@ $uri_token = rtrim($_SERVER['REQUEST_URI'], '/'); //Removes whitespace or other 
 
 // Remove Base URL
 $base_url = $config['base_url'];
+$pattern = '/external\/studentcareer/i';
+$route_url_token = preg_replace($pattern, '', $uri_token);
+//Removes whitespace or other predefined char
+$uri_token = explode('/', rtrim($route_url_token, '/'));
+$uri_array = array_values(array_filter($uri_token, fn ($value) => !is_null($value) && $value !== ''));
+
+// Find Controller Route
+$controllerName = fetchRouteController($uri_array);
 
 echo "<pre>";
-print_r($uri_token);
-echo "<br />";
-print($base_url);
+//print_r($uri_array);
 
 echo "<br />";
+echo ($controllerName);
 echo "<br />";
-
-
-$str = '/External/StudentCareer/index.php/Home.php/about';
-$pattern = '/external\/studentcareer/i';
-echo preg_replace($pattern, '', $str);
