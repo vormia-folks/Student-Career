@@ -8,7 +8,7 @@
  */
 
 //  BASE URL
-$config['base_url'] = "http://localhost:8888/External/StudentCareer";
+$config['base_url'] = "External/StudentCareer";
 $config['assets_url'] = "public/";
 $config['view_url'] = "views/";
 

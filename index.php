@@ -16,8 +16,10 @@ $uri_token = rtrim($_SERVER['REQUEST_URI'], '/'); //Removes whitespace or other 
 
 // Remove Base URL
 $base_url = $config['base_url'];
-$pattern = '/external\/studentcareer/i';
+$pattern_string = str_replace("/", "\/", $base_url);
+$pattern = "/$pattern_string/i";
 $route_url_token = preg_replace($pattern, '', $uri_token);
+
 //Removes whitespace or other predefined char
 $uri_token = explode('/', rtrim($route_url_token, '/'));
 $uri_array = array_values(array_filter($uri_token, fn ($value) => !is_null($value) && $value !== ''));
