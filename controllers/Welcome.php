@@ -9,7 +9,7 @@ class Welcome extends Controller
     {
 
         $data['message'] = "You have accessed welcome controller";
-        $this->view->render("welcome/index.php", $data);
+        $this->view->render("welcome/index", $data);
     }
 }
 

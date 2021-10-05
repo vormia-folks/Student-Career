@@ -10,16 +10,19 @@ class  View
      * 
      * Render the View
      * -> Pass the view script
+     * -> Accept values
      */
-
     public function render($view, $vars = array(), $return = true)
     {
         // Path to the file
-        $path = 'views/' . $view;
-        $this->_reqr_file_vars($path, $this->prepare_view_vars($vars), $return);
+        $path = "views/$view.php";
+        $this->reqr_file_vars($path, $this->prepare_view_vars($vars), $return);
     }
 
-    public function _reqr_file_vars($filePath, $variables = array(), $print = true)
+    /**
+     * Access File and pass Variables
+     */
+    public function reqr_file_vars($filePath, $variables = array(), $print = true)
     {
         $output = NULL;
         if (file_exists($filePath)) {
@@ -41,18 +44,14 @@ class  View
         return $output;
     }
 
+    /**
+     * Prepaire values for ease access
+     */
     public function prepare_view_vars($vars)
     {
         // Check If Value is Array
         if (!is_array($vars)) {
             $vars = is_object($vars) ? get_object_vars($vars) : array();
-        }
-
-        // Loop
-        foreach (array_keys($vars) as $key) {
-            if (strncmp($key, '_ci_', 4) === 0) {
-                unset($vars[$key]);
-            }
         }
 
         return $vars;
