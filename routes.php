@@ -10,3 +10,7 @@ $route["404"] = "Error/404"; //Error Controller
 
 // Custom Routes
 $route["student/signup"] = "Signup/students";
+$route["signup"] = "Signup/passed";
+
+$route['student/name/(:val)'] = "Signup/students/#1";
+$route['student/passed'] = "Signup/passed";

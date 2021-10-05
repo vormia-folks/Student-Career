@@ -1,9 +1,6 @@
 <?php
 
-require_once '../libraries/Controller.php';
-
-
-defined('BASEPATH') or exit('No direct script access allowed');
+require_once 'libraries/Controller.php';
 
 class Welcome extends Controller
 {
@@ -11,7 +8,7 @@ class Welcome extends Controller
     public function index()
     {
 
-        echo "Welcome Page";
+        echo "View The Welcome Page";
     }
 }
 

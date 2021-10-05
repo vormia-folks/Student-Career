@@ -32,34 +32,69 @@ function addExtName($controllerName)
     return implode('/', $controller_route);
 }
 
+// Get Controller Class Name
+function getClassName($controller)
+{
+    // Look for . [we are searching for .php]
+    if (strpos($controller, '.')) {
+        $controller = strtok($controller, '/');
+        $controller = explode(".php", $controller);
+        $controller = $controller[0];
+    }
+
+    // Return Found Data
+    return $controller;
+}
+
+//Fetch Controller Routes
+function findControllerRoute($url_string, $route)
+{
+    // Check
+    if (array_key_exists("$url_string", $route)) {
+        // Return the Controller
+        return $url_string;
+    } else {
+
+        //  Remove (:val) && (:num) from String
+        $search_route_url = str_replace("/(:val)", '', $url_string);
+        $search_route_url = str_replace("/(:num)", '', $search_route_url);
+
+        // Explode
+        $routeArray = explode("/", $search_route_url);
+
+        if (count($routeArray) > 1) {
+
+            $val = end($routeArray);
+            $type_set = (is_numeric($val)) ? "(:num)" : "(:val)";
+            $search_route = str_replace($val, $type_set, $url_string);
+
+            // Find Route
+            return findControllerRoute($search_route, $route);
+        } else {
+            return false;
+        }
+    }
+}
+
 // Generate Route
 function fetchRouteController($urlToken)
 {
     // Change to String
     $url_string = strtolower(implode('/', $urlToken));
-    $get_request = null;
 
-    // Chec Get Request
-    if (strpos($url_string, '?')) {
-
-        /**
-         * Check Get Request
-         */
-        $get_request_checker = end($urlToken);
-        $get_request = (count($get_request_checker) > 0) ? explode('?', $get_request_checker) : null;
-        $get_request = (!is_null($get_request)) ? $get_request[1] : null;
-
-        // URL String
-        $url_string = substr($url_string, 0, strpos($url_string, "?"));
-    }
+    // URL String
+    $url_string = (strpos($url_string, '?')) ? substr($url_string, 0, strpos($url_string, "?")) : $url_string;
 
     // Include Route File
     require_once 'routes.php';
 
     // Find Route
-    if (array_key_exists("$url_string", $route)) {
+    $foundRoute = findControllerRoute($url_string, $route);
+
+    // Check Route
+    if ($foundRoute) {
         // Return the Controller
-        $controllerFound = addExtName($route["$url_string"]);
+        $controllerFound = addExtName($route["$foundRoute"]);
     } else {
         // Check If Controller Exist
         $controller = (count($urlToken) > 0) ? $urlToken[0] : null;
@@ -78,9 +113,6 @@ function fetchRouteController($urlToken)
         }
     }
 
-    // Controller Route
-    $fullRoute = (!is_null($get_request)) ? $controllerFound . "?$get_request" : $controllerFound;
-
     // Return Value
-    return $fullRoute;
+    return $controllerFound;
 }

@@ -23,11 +23,39 @@ $uri_token = explode('/', rtrim($route_url_token, '/'));
 $uri_array = array_values(array_filter($uri_token, fn ($value) => !is_null($value) && $value !== ''));
 
 // Find Controller Route
-$controllerName = fetchRouteController($uri_array);
+$controllerRoute = fetchRouteController($uri_array); // Full Controller Path
+$controllerPassed = explode('/', $controllerRoute); // Controller File Name
+$controllerClass = getClassName($controllerRoute); // COntroller Class Name
+
+// Check Parameters
+$para_key = array_search("#1", $controllerPassed);
+if ($para_key > 0) {
+    while ($para_key < count($uri_array)) {
+        $controllerPassed[$para_key] = $uri_array[$para_key];
+        $para_key++;
+    }
+}
+
+/**
+ * @var string|array
+ * 
+ * Check Get Request
+ */
+$get_request_checker = end($uri_array);
+$get_request = (count($get_request_checker) > 0) ? explode('?', $get_request_checker) : null;
+$get_request = (!is_null($get_request)) ? $get_request[1] : null;
+
+// Require The Controller
+$controllerName = $controllerPassed[0];
+require_once("controllers/" . $controllerName);
+$controller = new $controllerClass;
 
 echo "<pre>";
-//print_r($uri_array);
+print_r($uri_array);
+echo "<br />";
+print_r($controllerPassed);
+echo "<br />";
+print_r($get_request);
 
-echo "<br />";
-echo ($controllerName);
-echo "<br />";
+
+// //$controller->index();
