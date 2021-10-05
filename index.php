@@ -50,12 +50,19 @@ $controllerName = $controllerPassed[0];
 require_once("controllers/" . $controllerName);
 $controller = new $controllerClass;
 
-echo "<pre>";
-print_r($uri_array);
-echo "<br />";
-print_r($controllerPassed);
-echo "<br />";
-print_r($get_request);
+// Call Controller Method
+$method = (array_key_exists(1, $controllerPassed)) ? $controllerPassed[1] : 'index';
+if (count($controllerPassed) > 2) {
+    // Paraneters - skip key 0 and 1, strat from key 2
+    for ($i = 2; $i < count($controllerPassed); $i++) {
+        $param[$i] = $controllerPassed[$i];
+    }
+    // Parameters
+    $arguments = array_values($param);
 
-
-// //$controller->index();
+    // Access Method
+    call_user_func_array(array($controller, $method), $arguments);
+} else {
+    // Access Method
+    $controller->{$method}();
+}

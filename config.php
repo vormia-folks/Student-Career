@@ -9,6 +9,7 @@
 
 //  BASE URL
 $config['base_url'] = "http://localhost:8888/External/StudentCareer";
+$config['assets_url'] = $config['base_url'] . "/public";
 
 // Database Config
 $config['db_name'] = "external_studentcareer";
@@ -109,6 +110,9 @@ function fetchRouteController($urlToken)
                 $controllerFound = addExtName($url_string);
             } else {
                 $controllerFound = addExtName($route["default_error"]);
+                $controllerFound = explode('/', $controllerFound);
+                array_push($controllerFound, 'controller');
+                $controllerFound = implode('/', $controllerFound);
             }
         }
     }

@@ -11,17 +11,18 @@ class Signup extends Controller
         echo "Signup Controller Page";
     }
 
-    public function students($name = 'Andrew')
+    public function students($name = 'Andrew', $score = 0)
     {
-        echo "Student Name is : $name";
+        echo "Student Name is : $name and he lost $score since registered";
     }
 
     public function passed()
     {
         $getData = $_GET;
 
-        echo "<pre>";
-        print_r($getData);
+        foreach ($getData as $key => $value) {
+            echo "$key is $value <br />";
+        }
     }
 }
 
