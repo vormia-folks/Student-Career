@@ -9,7 +9,8 @@
 
 //  BASE URL
 $config['base_url'] = "http://localhost:8888/External/StudentCareer";
-$config['assets_url'] = $config['base_url'] . "/public";
+$config['assets_url'] = "public/";
+$config['view_url'] = "views/";
 
 // Database Config
 $config['db_name'] = "external_studentcareer";

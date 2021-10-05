@@ -8,7 +8,8 @@ class Welcome extends Controller
     public function index()
     {
 
-        echo "View The Welcome Page";
+        $data['message'] = "You have accessed welcome controller";
+        $this->view->render("welcome/index.php", $data);
     }
 }
 
