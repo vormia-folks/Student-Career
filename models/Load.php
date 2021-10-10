@@ -30,4 +30,12 @@ class Load extends Model
 
         return $data;
     }
+
+    /**
+     * Unset Values
+     */
+    public function unsetvalues($data, $unset)
+    {
+        return $this->controller->unsetData($data, $unset);
+    }
 }

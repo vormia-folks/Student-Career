@@ -7,21 +7,7 @@
  * We set-up the base URL database configuration and more from this file.
  */
 
-//  BASE URL
-// $config['base_url'] = "External/StudentCareer";
-// $config['assets_url'] = "public/";
-// $config['view_url'] = "views/";
-
-// // Database Config
-// $config['db_name'] = "external_studentcareer";
-// $config['db_host'] = "localhost";
-// $config['db_user'] = "root";
-// $config['db_password'] = "root";
-
-// // Database Config Plus
-// $config['db_prefix'] = "";
-
-require('libraries/config.php');
+require('libraries/Config.php');
 
 // Connection
 

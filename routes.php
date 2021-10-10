@@ -18,3 +18,7 @@ $route['student/check/(:val)/(:num)'] = "Signup/students/#1/#2";
 
 // WEBSITE
 $route["home"] = "WebHome"; //Index
+
+// Signup
+$route["access"] = "WebSignup"; //Index
+$route["signup/student"] = "WebSignup/valid/student"; //Index

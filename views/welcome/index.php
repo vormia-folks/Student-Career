@@ -15,6 +15,14 @@
 <body>
     <h1>Hello, world!</h1>
     <p><?= $message; ?></p>
+
+    <pre>
+        /External/StudentCareer/welcome
+        \/External\/StudentCareer\/welcome
+        <?php
+        print_r($_SERVER);
+        ?>
+    </pre>
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->

@@ -6,7 +6,7 @@
 // Error
 @mixin errorMessage() {
   display: block !important;
-  color: getMap(red) !important;
+  color: getColor(red) !important;
   font-size: 12px !important;
   font-style: italic !important;
 }

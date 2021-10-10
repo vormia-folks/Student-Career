@@ -11,6 +11,15 @@ font-family: 'Roboto', sans-serif;
 //Variables
 $fixed-mb: 4%;
 
+.fa-asterisk {
+  color: getColor(red);
+  font-size: 10px;
+}
+
+span.error {
+  @include errorMessage;
+}
+
 // Body
 body {
   font-family: "Open Sans", sans-serif !important;
@@ -252,6 +261,41 @@ section.about-us {
         margin-top: 5%;
         border-radius: 20px;
         padding: 3%;
+      }
+    }
+  }
+}
+
+/*
+* Register
+*/
+section.register {
+  // background: url(../img/bg/header-background.jpeg) center center no-repeat;
+  background-color: #417585; //getColor(bluefade);
+  background-size: cover;
+  z-index: -20;
+  padding: 10% 25%;
+  // height: 900px;
+
+  $padding: 5%;
+
+  div.col {
+    div.register-tabs {
+      background-color: white;
+      border-radius: 10px;
+
+      div.tabs-header {
+        padding: 5% $padding 0;
+      }
+
+      div.tabs-area {
+        padding: 5% $padding;
+        background-color: #0bbef3;
+
+        div.register-form {
+          background-color: getColor(white);
+          padding: 2%;
+        }
       }
     }
   }
