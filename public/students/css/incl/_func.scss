@@ -1,0 +1,12 @@
+// Functions
+@function getColor($color_name, $map: $colors) {
+  @return map-get($map, $color_name);
+}
+
+// Error
+@mixin errorMessage() {
+  display: block !important;
+  color: getMap(red) !important;
+  font-size: 12px !important;
+  font-style: italic !important;
+}

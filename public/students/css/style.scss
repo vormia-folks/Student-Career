@@ -1,0 +1,42 @@
+// Import Colors
+@import "incl/colors";
+@import "incl/func";
+
+/*
+font-family: 'Festive', cursive;
+font-family: 'Open Sans', sans-serif;
+font-family: 'Roboto', sans-serif;
+*/
+
+// Body
+body {
+  font-family: "Open Sans", sans-serif !important;
+  background-color: getColor(white);
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+// NavBar
+header.main-nav {
+  background-color: getColor(white);
+  nav.navbar {
+    background-color: getMap(white);
+    //   Logo
+    a.navbar-brand {
+      img {
+        width: auto;
+        height: 30px;
+      }
+    }
+
+    // Button
+    button.navbar-toggler {
+    }
+
+    // Menu
+    div#navbarNavDropdown {
+      ul.navbar-nav {
+      }
+    }
+  }
+}
