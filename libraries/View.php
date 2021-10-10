@@ -14,8 +14,11 @@ class  View
      */
     public function render($view, $vars = array(), $return = true)
     {
+        // Include Config
+        include 'libraries/Config.php';
+
         // Path to the file
-        $path = "views/$view.php";
+        $path = $config['views'] . "/$view.php";
         $this->reqr_file_vars($path, $this->prepare_view_vars($vars), $return);
     }
 
