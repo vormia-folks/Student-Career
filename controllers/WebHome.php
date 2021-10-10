@@ -67,10 +67,8 @@ class WebHome extends Controller
 
         // Standard Passed
         $data = array(
-            'title' => 'Welcome To Theme Page',
             'message' => 'You have accessed welcome controller2',
-            'slogan' => 'Slogan More',
-            'base_url' => $this->base_url()
+            'slogan' => 'Slogan More'
         );
 
         // Return
