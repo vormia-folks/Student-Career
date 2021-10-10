@@ -22,7 +22,7 @@ class Load extends Model
     {
 
         $data = array(
-            'site_title' => 'Student Carrier Portal',
+            'site_title' => 'Student Career Portal',
             'front_layout' => 'students',
             'base_url' => $this->controller->base_url(),
             'asset_url' => $this->controller->asset_url(),
