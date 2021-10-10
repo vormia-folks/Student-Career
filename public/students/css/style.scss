@@ -8,6 +8,9 @@ font-family: 'Open Sans', sans-serif;
 font-family: 'Roboto', sans-serif;
 */
 
+//Variables
+$fixed-mb: 4%;
+
 // Body
 body {
   font-family: "Open Sans", sans-serif !important;
@@ -114,7 +117,6 @@ section.image-banner {
 * Services
 */
 section.services {
-  $fixed-mb: 4%;
   margin: 8% auto;
   h2 {
     // font-family: "Roboto", sans-serif;
@@ -175,6 +177,82 @@ section.services {
 
     p {
       font-family: "Roboto", sans-serif;
+    }
+  }
+}
+
+/*
+*  What We Do
+*/
+section.what-we-do {
+  margin-bottom: $fixed-mb;
+  div.image-box {
+  }
+
+  div.what-we {
+    padding-top: 5%;
+    h6 {
+      font-family: "Roboto", sans-serif;
+      text-transform: uppercase;
+      margin-bottom: $fixed-mb;
+      color: getColor(red);
+      font-weight: 700;
+    }
+
+    h2 {
+      font-family: "Open Sans", sans-serif;
+      margin: $fixed-mb 0 !important;
+      font-size: 2.2em;
+    }
+
+    p {
+      margin-bottom: $fixed-mb;
+      font-family: "Open Sans", sans-serif;
+    }
+
+    div.action-btn {
+      a,
+      button {
+        margin-top: 5%;
+      }
+    }
+  }
+}
+
+/*
+* About Us
+*/
+section.about-us {
+  div.what-we {
+    padding-top: 10%;
+    margin-left: 4%;
+
+    h6 {
+      font-family: "Roboto", sans-serif;
+      text-transform: uppercase;
+      margin-bottom: $fixed-mb;
+      color: getColor(red);
+      font-weight: 700;
+    }
+
+    h2 {
+      font-family: "Open Sans", sans-serif;
+      margin: $fixed-mb 0 !important;
+      font-size: 2.2em;
+    }
+
+    p {
+      margin-bottom: $fixed-mb;
+      font-family: "Open Sans", sans-serif;
+    }
+
+    div.action-btn {
+      a,
+      button {
+        margin-top: 5%;
+        border-radius: 20px;
+        padding: 3%;
+      }
     }
   }
 }

@@ -112,5 +112,62 @@
 
 <!-- What We Do -->
 <section class="what-we-do">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-sm-12">
+                <div class="image-box">
+                    <div class="">
+                        <img src="<?= $asset_url; ?>/students/img/we-do.png" alt="">
+                    </div>
+                </div>
+            </div>
 
+            <div class="col-md-4 col-sm-12">
+                <div class="what-we">
+                    <h6>What We Do</h6>
+
+                    <h2>Student Career</h2>
+
+                    <p>our website specializes in offering work and internship opportunities to students who have not yet finished their studies but also to those who have left but have not yet found work
+                        by giving these kinds of opportunities to students we allow them to gain experience that can be of use to them when they look for work later in life.</p>
+                    <div class="action-btn">
+                        <a href="" class="btn btn-primary">
+                            Know More <i class="fas fa-angle-double-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Us -->
+<section class="about-us">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-sm-12">
+                <div class="what-we ml-5">
+                    <h6>About Us</h6>
+
+                    <h2>We are Students of Technology</h2>
+
+                    <p>We Specializes in offering work and internship opportunities to students who have not yet finished their studies by giving these kinds of opportunities to students we allow them to gain experience that can be of use to them when they look for work later in life.</p>
+
+                    <div class="action-btn">
+                        <a href="" class="btn btn-danger">
+                            Buy us a Coffee <i class="fas fa-mug-hot"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8 col-sm-12">
+                <div class="image-box">
+                    <div class="text-center">
+                        <img src="<?= $asset_url; ?>/students/img/student.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
