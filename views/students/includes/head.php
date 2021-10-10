@@ -54,22 +54,28 @@
                                 <a class="nav-link active" aria-current="page" href="<?= $base_url; ?>">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Features</a>
+                                <a class="nav-link" href="#">Careers</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Pricing</a>
+                                <a class="nav-link" href="#">Students</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Employer</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Dropdown link
+                                    More
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    <li><a class="dropdown-item" href="#">Partners</a></li>
+                                    <li><a class="dropdown-item" href="#">About Us</a></li>
+                                    <li><a class="dropdown-item" href="#">Contact Us</a></li>
                                 </ul>
                             </li>
                         </ul>
+                        <span class="nav-item">
+                            <a href="<?= $base_url; ?>/access" class="btn btn-sm btn-primary btn-solid-sm">Signup/Signin</a>
+                        </span>
                     </div>
                 </div>
             </nav>

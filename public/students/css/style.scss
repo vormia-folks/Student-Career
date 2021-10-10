@@ -35,7 +35,38 @@ header.main-nav {
 
     // Menu
     div#navbarNavDropdown {
+      .nav-item {
+        padding-left: 1.5px;
+        padding-right: 1.5px;
+        font-weight: 400;
+
+        a {
+          font-weight: 500;
+        }
+
+        a.active {
+          color: getColor(bluefade);
+        }
+
+        a:hover {
+          color: getColor(bluefade);
+        }
+      }
       ul.navbar-nav {
+      }
+      span.nav-item {
+        a.btn-solid-sm {
+          border-radius: 20px;
+          background-color: getColor(bluefade);
+          border-color: getColor(bluefade);
+          font-weight: bold;
+        }
+
+        a:hover {
+          background-color: getColor(red);
+          border-color: getColor(red);
+          color: getColor(white);
+        }
       }
     }
   }
