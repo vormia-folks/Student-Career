@@ -11,16 +11,16 @@ font-family: 'Roboto', sans-serif;
 // Body
 body {
   font-family: "Open Sans", sans-serif !important;
-  background-color: getColor(white);
+  background-color: getColor(white2);
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
 }
 
 // NavBar
 header.main-nav {
-  background-color: getColor(white);
+  background-color: getColor(white2);
   nav.navbar {
-    background-color: getMap(white);
+    background-color: getMap(white2);
     //   Logo
     a.navbar-brand {
       img {
@@ -94,9 +94,87 @@ section.image-banner {
 
     // Search Box
     div.search-box {
+      background-color: getColor(tranBlue);
+      border-radius: 10px;
+      position: relative;
+      margin-top: 20%;
+      width: 70%;
+      float: right;
       form {
-        width: 80%;
+        padding: 5% 2% 1% 2%;
+        .row {
+          margin-bottom: 10px;
+        }
       }
+    }
+  }
+}
+
+/*
+* Services
+*/
+section.services {
+  $fixed-mb: 4%;
+  margin: 8% auto;
+  h2 {
+    // font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-size: 2.3em;
+    position: relative;
+    margin-bottom: $fixed-mb;
+  }
+
+  h2::after {
+    display: block;
+    content: "";
+    width: 5%;
+    height: 3px;
+    background: black;
+    position: absolute;
+    top: 110%;
+    bottom: 0;
+    left: 0;
+  }
+
+  div.box-service {
+    div.box-icon {
+      margin-bottom: $fixed-mb;
+      i {
+        font-size: 2em;
+        padding: 3%;
+        border-radius: 5px;
+      }
+    }
+
+    // Icon Colors
+    div.first-icon {
+      i {
+        background-color: getColor(tranBlue1);
+        color: getColor(white2);
+      }
+    }
+    div.second-icon {
+      i {
+        background-color: getColor(tranGreen1);
+        color: getColor(white);
+      }
+    }
+    div.third-icon {
+      i {
+        background-color: getColor(red);
+        color: getColor(white);
+      }
+    }
+
+    // Header
+    h5 {
+      font-weight: bold;
+      text-shadow: 10px;
+      margin-bottom: $fixed-mb;
+    }
+
+    p {
+      font-family: "Roboto", sans-serif;
     }
   }
 }
