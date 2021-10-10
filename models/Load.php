@@ -1,5 +1,6 @@
 <?php
 require_once 'libraries/Model.php';
+require_once 'libraries/Controller.php';
 
 class Load extends Model
 {
@@ -8,7 +9,7 @@ class Load extends Model
     {
         parent::__construct();
         //Do your magic here
-
+        $this->controller = new Controller;
     }
 
     /**
@@ -22,7 +23,9 @@ class Load extends Model
 
         $data = array(
             'site_title' => 'Student Carrier Portal',
-            'front_layout' => 'students'
+            'front_layout' => 'students',
+            'base_url' => $this->controller->base_url(),
+            'asset_url' => $this->controller->asset_url(),
         );
 
         return $data;

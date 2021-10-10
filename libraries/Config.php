@@ -2,8 +2,8 @@
 
 //  BASE URL
 $config['base_url'] = "External/StudentCareer";
-$config['assets'] = "public/";
-$config['views'] = "views/";
+$config['assets'] = "public";
+$config['views'] = "views";
 
 // Database Config
 $config['db_name'] = "external_studentcareer";
