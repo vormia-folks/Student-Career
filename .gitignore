@@ -8,20 +8,3 @@ vendor/
 /vendor/
 
 libraries/Config.php
-
-# IDE Files
-#-------------------------
-/nbproject/
-.idea/*
-
-# Vs_Code Files
-.vscode
-
-## Sublime Text cache files
-*.tmlanguage.cache
-*.tmPreferences.cache
-*.stTheme.cache
-*.sublime-workspace
-*.sublime-project
-/tests/tests/
-/tests/results/
