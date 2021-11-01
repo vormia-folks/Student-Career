@@ -3,7 +3,7 @@
 // Use Autoload To Access Libraries & Model
 require_once 'libraries/Autoload.php';
 
-class WebSignup extends Controller
+class PortalStudents extends Controller
 {
 
     /**
@@ -11,7 +11,8 @@ class WebSignup extends Controller
      * The Main Website Home Page Controller
      * -> The controller open the first home page
      */
-    public $Folder = ''; //View Dir Name
+    public $Layout = 'portals'; //View Folder
+    public $Folder = 'students'; //View Dir Name
     public $SubFolder = '';
 
     /**
@@ -27,7 +28,6 @@ class WebSignup extends Controller
         // Models Instance
         $this->modal->load = new Load;
         $this->modal->notify = new Notify;
-        $this->db = new DB;
 
         // Libraries Instance
         $this->plural = new Plural;
@@ -86,7 +86,7 @@ class WebSignup extends Controller
     {
         // Load Data
         $page = $data['site_page'];
-        $layout = (!is_null($layout)) ? $layout : $data['front_layout'];
+        $layout = (!is_null($layout)) ? $layout : $this->Layout;
 
         // Load Page
         $this->view->render("$layout/includes/head", $data);
@@ -103,8 +103,9 @@ class WebSignup extends Controller
      */
     public function index($notification = null)
     {
+
         //Prepaire Data
-        $page = $this->plural->pluralize($this->Folder) . $this->SubFolder . "/access";
+        $page = $this->plural->pluralize($this->Folder) . $this->SubFolder . "/dashboard";
         $data = $this->load($page);
 
         // Custom Data Values
@@ -137,71 +138,6 @@ class WebSignup extends Controller
         //Open Page
         $this->pages($data);
     }
-
-
-    /**
-     * Validation
-     * 
-     * This function will deal with validation of user inputs
-     */
-    public function valid($type = null)
-    {
-        // Check Type
-        if ($type == 'student') {
-
-            $formData = $_POST;
-
-            //Do validation Here
-
-            // Unset Data
-            $unset = array('confrm_student_password');
-
-            // Password Encrypt
-            $postData = $this->modal->load->unsetvalues($formData, $unset);
-            $postData['student_password'] = sha1($postData['student_password']);
-
-            // Insert
-            $insertID = $this->db->insert($this->plural->pluralize('student'), $postData);
-
-            // Add Login
-            $loginData = array(
-                'login_email' => $postData['student_email'],
-                'login_account' => $insertID,
-                'login_type' => 'student',
-            );
-            $this->db->insert($this->plural->pluralize('login'), $loginData);
-
-            $message = 'Your Account has been registered';
-
-            // Open Page
-            $this->open('access', 'success', $message);
-        } elseif ($type == 'signin') {
-            $formData = $_POST;
-
-            //Do validation Here
-
-            // Account Email
-            $email = '16j01acs012@anu.ac.ke'; //$formData['email'];
-            // Password Encrypt
-            $password = $formData['password'];
-            $encrypt_password = sha1($password);
-
-            // Check Account Type
-            $found = $this->db->select($this->plural->pluralize('login'), 'login_type as table_name, login_email as email', array('login_email' => $email), 1);
-            $found = (is_null($found)) ? 'NUll' : $found;
-
-            echo "<pre>";
-            print_r($found);
-            echo "<br />";
-            echo "Email : $email <br />";
-            echo "Password : $password <br />";
-            die;
-            $message = 'Your Account has been registered';
-
-            // Open Page
-            $this->open('access', 'success', $message);
-        }
-    }
 }
 
-/* End of file WebSignup.php */
+/* End of file PortalStudents.php */

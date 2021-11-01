@@ -89,9 +89,40 @@
                                 </p>
                             </div>
                             <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                                <p>
-                                    3 - Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis corporis architecto maxime mollitia exercitationem impedit assumenda! Voluptas, quisquam? Dolores asperiores accusantium reiciendis quaerat sunt dolor sapiente natus, itaque distinctio tenetur.
-                                </p>
+                                <div class="register-form">
+                                    <form class="" action="<?= $base_url; ?>/login" method="post" accept-charset="utf-8" enctype="multipart/form-data" autocomplete="off">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <!-- Notification -->
+                                                <?= $notify; ?>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Enter Student Email <i class="fas fa-asterisk"></i></label>
+                                                    <input type="email" class="form-control" name="email" required>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Enter Password <i class="fas fa-asterisk"></i></label>
+                                                    <input type="password" class="form-control" name="password" required>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Submit -->
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <button type="submit" class="btn btn-lg btn-success text-center  w-100">
+                                                    Login <i class="fas fa-check"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>

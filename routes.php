@@ -22,3 +22,13 @@ $route["home"] = "WebHome"; //Index
 // Signup
 $route["access"] = "WebSignup"; //Index
 $route["signup/student"] = "WebSignup/valid/student"; //Index
+
+// Signin
+$route["login"] = "WebSignup/valid/signin"; //Index
+
+/**
+ * PORTAL STUDENTS
+ */
+
+//Dashboard
+$route["portal/students"] = "PortalStudents/index"; //Index

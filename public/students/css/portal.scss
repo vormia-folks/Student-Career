@@ -1,0 +1,183 @@
+// Import Colors
+@import "incl/colors";
+@import "incl/func";
+
+/*
+font-family: 'Festive', cursive;
+font-family: 'Open Sans', sans-serif;
+font-family: 'Roboto', sans-serif;
+*/
+
+//Variables
+$fixed-mb: 4%;
+
+.fa-asterisk {
+  color: getColor(red);
+  font-size: 10px;
+}
+
+span.error {
+  @include errorMessage;
+}
+
+// Body
+body {
+  font-family: "Open Sans", sans-serif !important;
+  background-color: getColor(white2);
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+// Admin Bar
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: arial, sans-serif;
+}
+.header {
+  background: getColor(blue3);
+
+  section.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 1%;
+    background: getColor(blue3);
+    color: getColor(white);
+
+    .u-name {
+      font-size: 20px;
+      padding-left: 1px;
+    }
+    .u-name b {
+      color: getColor(white);
+    }
+
+    // Profile icon
+    a {
+      i {
+        font-size: 30px;
+        cursor: pointer;
+        color: #fff;
+      }
+      i:hover {
+        color: getColor(bluefade);
+      }
+    }
+  }
+
+  // navbtn
+  #navbtn {
+    display: inline-block;
+    margin-left: 70px;
+    font-size: 20px;
+    transition: 500ms color;
+  }
+}
+
+// Main Body
+div.body {
+  //   display: flex;
+  background: getColor(white);
+  // Sidebar
+  section.sidebar {
+    background: getColor(bluefade);
+    nav.side-bar {
+      padding-top: 10%;
+      background: getColor(bluefade);
+      min-height: 100vh;
+      transition: 500ms width;
+      // Logo and Profile
+      .user-p {
+        text-align: center;
+        padding-left: 0px;
+        padding-top: 0px;
+      }
+      .user-p img {
+        width: 50%;
+        border-radius: 25px;
+        background: #fff;
+        padding: 5%;
+      }
+      .user-p h4 {
+        color: getColor(black);
+        padding: 5px 0;
+      }
+    }
+
+    // Nav Ul
+    ul {
+      margin-top: 5%;
+      list-style: none;
+      padding-left: 0px;
+
+      li {
+        font-size: 16px;
+        padding: 10px 5px;
+        margin-bottom: 15px;
+        // padding-left: 1px;
+        transition: 500ms background;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        // Anchor Link
+        a {
+          text-decoration: none;
+          color: getColor(white);
+          cursor: pointer;
+          letter-spacing: 1px;
+
+          // icon
+          i {
+            display: inline-block;
+            padding-right: 10px;
+            font-size: 23px;
+          }
+        }
+      }
+
+      li:hover {
+        background: getColor(blue4);
+        border-radius: 10px;
+      }
+    }
+  }
+
+  // Main Section
+  section.main-area {
+    width: 100%;
+    background: getColor(white);
+    padding: 3% 0px;
+
+    div.portal-area {
+      //Card
+      div.card {
+        div.card-header {
+          background: getColor(dark_blue);
+          h3 {
+            color: getColor(white);
+          }
+        }
+
+        div.card-body {
+          div.notification {
+            padding: 0px 3%;
+          }
+          div.body-content {
+            padding: 3%;
+
+            label {
+              font-weight: bold;
+            }
+
+            h5 {
+              margin-bottom: 3%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
