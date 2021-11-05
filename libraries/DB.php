@@ -34,8 +34,15 @@ class DB
     public function insert($table, $insert)
     {
         // Get Columns
-        $columns = implode(',', array_keys($insert));
+        $select = implode(',', array_keys($insert));
         $values = $this->insert_values($insert);
+
+        //Modules
+        $module = Plural::singularize($table);
+        $table = Plural::pluralize($module);
+
+        $select_column = $this->get_column_name($module, $select);
+        $columns = (is_array($select_column)) ? implode(',', array_values($select_column)) : $select_column;
 
         // Insert
         $conn = $this->db_connect();
@@ -45,13 +52,62 @@ class DB
         if ($conn->query($sql) === TRUE) {
             return $conn->insert_id;
         } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            return false;
+            // echo "Error: " . $sql . "<br>" . $conn->error;
         }
 
         // Close
         $conn->close();
     }
 
+    /**
+     * *** This function help you to update data ***
+     * 
+     * update table values
+     * Accept table name and prularise the table name string
+     * Accept the column name and value to be updated
+     * Accept the where clause
+     */
+    public function update($table, $update, $where)
+    {
+        //Modules
+        $module = Plural::singularize($table);
+        $table = Plural::pluralize($module);
+
+        // Update
+        foreach ($update as $key => $value) {
+            $column = $this->get_column_name($module, $key);
+            $update_column[$column] = $value; //Set Proper Column Name 
+        }
+        if (is_array($update_column)) {
+            $update = $this->update_values($update_column);
+        }
+        $update = " SET $update";
+
+        // Where
+        foreach ($where as $key => $value) {
+
+            $column = $this->get_column_name($module, $key);
+            $where_column[$column] = $value; //Set Proper Column Name 
+        }
+        if (is_array($where_column)) {
+            $where = implode(` AND `, $this->select_values($where_column));
+        }
+        $where = " WHERE $where";
+
+        // Update
+        $conn = $this->db_connect();
+        $sql = "UPDATE `$table` $update $where";
+
+        $result = $conn->query($sql);
+
+        // Return
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     /**
      *
      * This function help you to select and retun values
@@ -81,8 +137,13 @@ class DB
         $table = Plural::pluralize($module);
 
         //Columns
-        $select_column = $this->get_column_name($module, $select);
-        $columns = (is_array($select_column)) ? implode(',', array_values($select_column)) : $select_column;
+        // if $select = * skip columns sequense
+        if ($select == '*') {
+            $columns = "*";
+        } else {
+            $select_column = $this->get_column_name($module, $select);
+            $columns = (is_array($select_column)) ? implode(',', array_values($select_column)) : $select_column;
+        }
 
         // Where
         foreach ($where as $key => $value) {
@@ -168,7 +229,11 @@ class DB
 
         //Get Values
         for ($i = 0; $i < count($values); $i++) {
-            $value = $values[$i];
+            //Connect to db
+            $conn = $this->db_connect();
+            $value = $conn->real_escape_string($values[$i]); // Escape string
+
+            // Assign Value
             if (!is_numeric($value)) {
                 $insert_values[$i] = "'$value'";
             } else {
@@ -180,6 +245,30 @@ class DB
         $values = implode(',', array_values($insert_values));
         return $values;
     }
+
+    /**
+     * 
+     * Generate function update_values
+     * 
+     * accept array value
+     * extract array key and value
+     * set key inside `$key`
+     * set value inside "$value"
+     */
+    public function update_values($update)
+    {
+        $update_values = array();
+        foreach ($update as $key => $value) {
+            if (!is_numeric($value)) {
+                $update_values[$key] = "$key = '$value'";
+            } else {
+                $update_values[$key] = "$key = $value";
+            }
+        }
+        $values = implode(',', array_values($update_values));
+        return $values;
+    }
+
 
     /**
      * Extract Select Values From Array

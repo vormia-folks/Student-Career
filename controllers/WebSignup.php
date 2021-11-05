@@ -101,13 +101,15 @@ class WebSignup extends Controller
      * 	* Set Notification here
      * 
      */
-    public function index($notification = null)
+    public function index($message = null)
     {
         //Prepaire Data
         $page = $this->plural->pluralize($this->Folder) . $this->SubFolder . "/access";
         $data = $this->load($page);
 
-        // Custom Data Values
+        // Notification
+        $notify = $this->modal->notify->notify();
+        $data['notify'] = $this->modal->notify->$notify($message);
 
         //Open Page
         $this->pages($data);
@@ -119,12 +121,11 @@ class WebSignup extends Controller
      * This is the function to be accessed when a user want to open specific page which deals with same controller E.g Edit data after saving
      * In here we can call the load function and pass data to passed as an array inorder to manupulate it inside passed function
      * 	* Set your Page name here E.g home.php it should just be 'home'
-     * 	* Set Notification here  (optional)
      * 	* Pass Notification Message  (optional)
      * 	* Pass Data (optional)
      * 
      */
-    public function open($pageName, $notify = 'blank', $message = null)
+    public function open($pageName, $message = null)
     {
 
         //Prepaire Data
@@ -132,6 +133,7 @@ class WebSignup extends Controller
         $data = $this->load($page);
 
         // Notification
+        $notify = $this->modal->notify->notify();
         $data['notify'] = $this->modal->notify->$notify($message);
 
         //Open Page
@@ -149,32 +151,35 @@ class WebSignup extends Controller
         // Check Type
         if ($type == 'student') {
 
-            $formData = $_POST;
+            // Get Form Data
+            $formData = $this->modal->load->input();
 
             //Do validation Here
 
             // Unset Data
-            $unset = array('confrm_student_password');
+            $unset = array('confirm_password');
 
             // Password Encrypt
-            $postData = $this->modal->load->unsetvalues($formData, $unset);
-            $postData['student_password'] = sha1($postData['student_password']);
+            $postData = $this->modal->load->unset($formData, $unset);
+            $postData['password'] = sha1($postData['password']);
 
             // Insert
             $insertID = $this->db->insert($this->plural->pluralize('student'), $postData);
 
             // Add Login
             $loginData = array(
-                'login_email' => $postData['student_email'],
-                'login_account' => $insertID,
-                'login_type' => 'student',
+                'email' => $postData['email'],
+                'account' => $insertID,
+                'type' => 'student',
             );
             $this->db->insert($this->plural->pluralize('login'), $loginData);
 
+            //Notification
+            $this->modal->notify->set('success');
             $message = 'Your Account has been registered';
 
             // Open Page
-            $this->open('access', 'success', $message);
+            $this->open('access', $message);
         }
     }
 }

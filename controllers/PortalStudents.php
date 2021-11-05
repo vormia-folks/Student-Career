@@ -101,31 +101,31 @@ class PortalStudents extends Controller
      * 	* Set Notification here
      * 
      */
-    public function index($notification = null)
+    public function index($message = null)
     {
 
         //Prepaire Data
         $page = $this->plural->pluralize($this->Folder) . $this->SubFolder . "/dashboard";
         $data = $this->load($page);
 
-        // Custom Data Values
+        // Notification
+        $notify = $this->modal->notify->notify();
+        $data['notify'] = $this->modal->notify->$notify($message);
 
         //Open Page
         $this->pages($data);
     }
-
 
     /**
      *
      * This is the function to be accessed when a user want to open specific page which deals with same controller E.g Edit data after saving
      * In here we can call the load function and pass data to passed as an array inorder to manupulate it inside passed function
      * 	* Set your Page name here E.g home.php it should just be 'home'
-     * 	* Set Notification here  (optional)
      * 	* Pass Notification Message  (optional)
      * 	* Pass Data (optional)
      * 
      */
-    public function open($pageName, $notify = 'blank', $message = null)
+    public function open($pageName, $message = null, $layout = null)
     {
 
         //Prepaire Data
@@ -133,10 +133,11 @@ class PortalStudents extends Controller
         $data = $this->load($page);
 
         // Notification
+        $notify = $this->modal->notify->notify();
         $data['notify'] = $this->modal->notify->$notify($message);
 
         //Open Page
-        $this->pages($data);
+        $this->pages($data, $layout);
     }
 }
 

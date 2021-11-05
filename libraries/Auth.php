@@ -60,7 +60,7 @@ class Auth extends Model
         // call auth session
         $this->auth_session();
         // check session is set or not
-        if (isset($_SESSION['id'])) {
+        if (isset($_SESSION['logged'])) {
             return true;
         } else {
             return false;
@@ -82,6 +82,61 @@ class Auth extends Model
             return $_SESSION[$session];
         } else {
             return false;
+        }
+    }
+
+    // check is session level is equal to passed variable
+    // accept session name and level name
+    public function auth_check_level($session, $level)
+    {
+        // call auth session
+        $this->auth_session();
+        // check session is set or not
+        if (isset($_SESSION[$session])) {
+            // check session level is equal to passed level
+            if ($_SESSION[$session] == $level) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Generate function named set_flash that set session notification with passed value
+     * accept a string parameter assign to session falsh
+     * non return value
+     */
+    public function auth_set_flash($value)
+    {
+        // call auth session
+        $this->auth_session();
+        // set session flash
+        $_SESSION['flash'] = trim($value);
+    }
+
+    /**
+     * Generate function named get_flash that get session notification
+     * accept no parameter
+     * return session flash value
+     * if session flash is not set return 'blank'
+     * destroy session flash
+     */
+    public function auth_get_flash()
+    {
+        // call auth session
+        $this->auth_session();
+        // check session flash is set or not
+        if (isset($_SESSION['flash'])) {
+            // return session flash value
+            $value = $_SESSION['flash'];
+            // destroy session flash
+            unset($_SESSION['flash']);
+            return $value;
+        } else {
+            return 'blank';
         }
     }
 }

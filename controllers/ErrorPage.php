@@ -3,7 +3,7 @@
 // Use Autoload To Access Libraries & Model
 require_once 'libraries/Autoload.php';
 
-class WebHome extends Controller
+class ErrorPage extends Controller
 {
 
     /**
@@ -11,6 +11,7 @@ class WebHome extends Controller
      * The Main Website Home Page Controller
      * -> The controller open the first home page
      */
+    public $Layout = 'errors'; //View Folder
     public $Folder = ''; //View Dir Name
     public $SubFolder = '';
 
@@ -85,11 +86,11 @@ class WebHome extends Controller
     {
         // Load Data
         $page = $data['site_page'];
-        $layout = (!is_null($layout)) ? $layout : $data['front_layout'];
+        $layout = (!is_null($layout)) ? $layout : $this->Layout;
 
         // Load Page
         $this->view->render("$layout/includes/head", $data);
-        $this->view->render("$layout/pages/$page", $data);
+        $this->view->render("$layout/$page", $data);
         $this->view->render("$layout/includes/footer", $data);
     }
 
@@ -103,7 +104,7 @@ class WebHome extends Controller
     public function index($message = null)
     {
         //Prepaire Data
-        $page = $this->plural->pluralize($this->Folder) . $this->SubFolder . "/home";
+        $page = $this->plural->pluralize($this->Folder) . $this->SubFolder . "/404";
         $data = $this->load($page);
 
         // Notification
@@ -113,6 +114,7 @@ class WebHome extends Controller
         //Open Page
         $this->pages($data);
     }
+
 
     /**
      *
@@ -139,4 +141,4 @@ class WebHome extends Controller
     }
 }
 
-/* End of file WebHome.php */
+/* End of file ErrorPage.php */

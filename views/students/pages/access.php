@@ -31,14 +31,14 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Enter First Name <i class="fas fa-asterisk"></i></label>
-                                                    <input type="text" class="form-control" name="student_first_name" required>
+                                                    <input type="text" class="form-control" name="first_name" required>
                                                     <span class="error">This input is required</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Enter Last Name <i class="fas fa-asterisk"></i></label>
-                                                    <input type="text" class="form-control" name="student_last_name" required>
+                                                    <input type="text" class="form-control" name="last_name" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -46,14 +46,14 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Enter Student Email <i class="fas fa-asterisk"></i></label>
-                                                    <input type="email" class="form-control" name="student_email" required>
+                                                    <input type="email" class="form-control" name="email" required>
 
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label"> Phone number <small>Eg. (07xxxxxxx)</small> </label>
-                                                    <input type="text" class="form-control" name="student_phone_number">
+                                                    <input type="text" class="form-control" name="phone_number">
                                                 </div>
                                             </div>
                                         </div>
@@ -61,13 +61,13 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Enter Password <i class="fas fa-asterisk"></i></label>
-                                                    <input type="password" class="form-control" name="student_password" required>
+                                                    <input type="password" class="form-control" name="password" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label"> Confirm Password <i class="fas fa-asterisk"></i></label>
-                                                    <input type="password" class="form-control" name="confrm_student_password" required>
+                                                    <input type="password" class="form-control" name="confirm_password" required>
                                                 </div>
                                             </div>
                                         </div>

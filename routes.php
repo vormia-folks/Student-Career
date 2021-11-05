@@ -5,8 +5,9 @@
  */
 
 $route["/"] = "WebHome"; // Main First-Page /   Controller
-$route["default_error"] = "Error"; // Default System Error
-$route["404"] = "Error/404"; // Error Controller
+$route["default_error"] = "ErrorPage"; // Default System Error
+$route["404"] = "ErrorPage/index"; // Error Controller
+$route["not-allowed"] = "ErrorPage/open/notallowed"; // Error Controller
 
 // Custom Routes
 $route["student/signup"] = "Signup/students";
@@ -33,4 +34,8 @@ $route["logout"] = "WebSignin/valid/logout"; //Index
  */
 
 //Dashboard
-$route["portal/students"] = "PortalStudents/index"; //Index
+$route["portal/student"] = "PortalStudents/index"; //Index
+
+// Profile
+$route["portal/student/profile"] = "PortalStudentsProfile/index"; //Index
+$route["portal/student/profile/update"] = "PortalStudentsProfile/valid/update"; //Index

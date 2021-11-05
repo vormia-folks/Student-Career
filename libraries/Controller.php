@@ -79,4 +79,14 @@ class Controller
             return $passedData; //All Data Without Unset
         }
     }
+
+    /**
+     * Header loaction 
+     * Redirect Function
+     */
+    public function redirect($url)
+    {
+        //pass $url to base_url function
+        header('Location: ' . $this->base_url($url));
+    }
 }

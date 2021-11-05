@@ -101,13 +101,15 @@ class WebSignin extends Controller
      * 	* Set Notification here
      * 
      */
-    public function index($notification = null)
+    public function index($message = null)
     {
         //Prepaire Data
         $page = $this->plural->pluralize($this->Folder) . $this->SubFolder . "/access";
         $data = $this->load($page);
 
-        // Custom Data Values
+        // Notification
+        $notify = $this->modal->notify->notify();
+        $data['notify'] = $this->modal->notify->$notify($message);
 
         //Open Page
         $this->pages($data);
@@ -119,12 +121,11 @@ class WebSignin extends Controller
      * This is the function to be accessed when a user want to open specific page which deals with same controller E.g Edit data after saving
      * In here we can call the load function and pass data to passed as an array inorder to manupulate it inside passed function
      * 	* Set your Page name here E.g home.php it should just be 'home'
-     * 	* Set Notification here  (optional)
      * 	* Pass Notification Message  (optional)
      * 	* Pass Data (optional)
      * 
      */
-    public function open($pageName, $notify = 'blank', $message = null)
+    public function open($pageName, $message = null, $layout = null)
     {
 
         //Prepaire Data
@@ -132,13 +133,12 @@ class WebSignin extends Controller
         $data = $this->load($page);
 
         // Notification
+        $notify = $this->modal->notify->notify();
         $data['notify'] = $this->modal->notify->$notify($message);
 
         //Open Page
-        $this->pages($data);
+        $this->pages($data, $layout);
     }
-
-
     /**
      * Validation
      * 
@@ -148,7 +148,9 @@ class WebSignin extends Controller
     {
         // Check Type
         if ($type == 'signin') {
-            $formData = $_POST;
+
+            // Get Form Data
+            $formData = $this->modal->load->input();
 
             //Do validation Here
 
@@ -164,8 +166,11 @@ class WebSignin extends Controller
 
             // Check if account exist
             if (is_null($found)) {
+                //Notification
+                $this->modal->notify->set('error');
+
                 // Account Not Found
-                $this->open('signin', 'error', 'Account Not Found');
+                $this->open('signin', 'Account Not Found');
             } else {
                 // Account Found
                 $foundData = $found[0];
@@ -195,34 +200,41 @@ class WebSignin extends Controller
                         );
 
                         //Auth Model
-                        require_once 'models/Auth.php';
-                        $this->modal->auth = new Auth;
+                        require_once 'libraries/Auth.php';
+                        $this->auth = new Auth;
 
                         // call auth session
-                        $this->modal->auth->auth_set_session($session_set);
+                        $this->auth->auth_set_session($session_set);
 
                         // Get name from session
-                        $name = $this->modal->auth->auth_get_session('name');
+                        $name = $this->auth->auth_get_session('name');
 
                         // Redirect
-                        //$this->redirect('home');
+                        $this->redirect("portal/$table_name/profile");
                     } else {
+                        //Notification
+                        $this->modal->notify->set('error');
+
                         // Password Incorrect
-                        $this->open('signin', 'error', 'Incorrect Password');
+                        $this->open('signin', 'Incorrect Password');
                     }
                 } else {
+                    //Notification
+                    $this->modal->notify->set('error');
 
                     // Account Not Active
-                    $this->open('signin', 'error', 'Account Not Active');
+                    $this->open('signin', 'Account Not Active');
                 }
             }
         } elseif ($type == 'logout') {
             //Auth Model
-            require_once 'models/Auth.php';
-            $this->modal->auth = new Auth;
+            require_once 'libraries/Auth.php';
+            $this->auth = new Auth;
 
             // call auth session
-            $this->modal->auth->auth_logout();
+            $this->auth->auth_logout();
+            // Redirect
+            $this->redirect("");
         }
     }
 }

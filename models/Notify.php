@@ -64,4 +64,47 @@ class Notify extends Model
 
         return $notify;
     }
+
+    /*
+    *
+    * This function can help user to check if there is any notification set in the notification KEY
+    * If there is it will return the notification method
+    * Else it will return blank
+    *  
+    */
+    public function notify()
+    {
+        //Auth Model
+        require_once 'libraries/Auth.php';
+        $this->auth = new Auth;
+
+        //Check if there is any notification by using auth->auth_get_flash do not pass value
+        $notify = $this->auth->auth_get_flash();
+
+        //Check Inside Notification
+        if (!empty($notify) || !is_null($notify)) {
+
+            return $notify; //Notification Method
+        } else {
+
+            return 'blank'; //Notification Method
+        }
+    }
+
+    /**
+     *
+     *  This function help you to set-up a notification session and the message you wish to be passed
+     *  This can be used by advance users when they want to set/store a value inside session so it can be accessed later
+     *  You can use this even to store user IP address/ User ID etc
+     * 
+     */
+    public function set($type = 'blank')
+    {
+        //Auth Model
+        require_once 'libraries/Auth.php';
+        $this->auth = new Auth;
+
+        //Set Message
+        $this->auth->auth_set_flash(trim($type));
+    }
 }
