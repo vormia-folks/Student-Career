@@ -24,7 +24,9 @@ $route["access"] = "WebSignup"; //Index
 $route["signup/student"] = "WebSignup/valid/student"; //Index
 
 // Signin
-$route["login"] = "WebSignup/valid/signin"; //Index
+$route["login"] = "WebSignin/open/signin"; //Index
+$route["login/valid"] = "WebSignin/valid/signin"; //Index
+$route["logout"] = "WebSignin/valid/logout"; //Index
 
 /**
  * PORTAL STUDENTS

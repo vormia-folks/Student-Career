@@ -3,7 +3,7 @@
 // Use Autoload To Access Libraries & Model
 require_once 'libraries/Autoload.php';
 
-class WebSignup extends Controller
+class WebSignin extends Controller
 {
 
     /**
@@ -147,36 +147,84 @@ class WebSignup extends Controller
     public function valid($type = null)
     {
         // Check Type
-        if ($type == 'student') {
-
+        if ($type == 'signin') {
             $formData = $_POST;
 
             //Do validation Here
 
-            // Unset Data
-            $unset = array('confrm_student_password');
-
+            // Account Email
+            $email = $formData['email'];
             // Password Encrypt
-            $postData = $this->modal->load->unsetvalues($formData, $unset);
-            $postData['student_password'] = sha1($postData['student_password']);
+            $password = $formData['password'];
+            $encrypt_password = sha1($password);
 
-            // Insert
-            $insertID = $this->db->insert($this->plural->pluralize('student'), $postData);
+            // Check Account Type
+            $found = $this->db->select('login', 'account as user,type as table_name, email as email, flg as active', array('email' => $email), 1);
+            $found = (is_null($found)) ? null : $found;
 
-            // Add Login
-            $loginData = array(
-                'login_email' => $postData['student_email'],
-                'login_account' => $insertID,
-                'login_type' => 'student',
-            );
-            $this->db->insert($this->plural->pluralize('login'), $loginData);
+            // Check if account exist
+            if (is_null($found)) {
+                // Account Not Found
+                $this->open('signin', 'error', 'Account Not Found');
+            } else {
+                // Account Found
+                $foundData = $found[0];
+                $table_name = $foundData['table_name'];
+                $email = $foundData['email'];
+                //active
+                $active = $foundData['active'];
+                //Account
+                $user = $foundData['user'];
 
-            $message = 'Your Account has been registered';
+                // Check if account is active
+                if ($active == 1) {
 
-            // Open Page
-            $this->open('access', 'success', $message);
+                    //Select Single Data
+                    $password = $this->db->select_single($table_name, 'password', array('email' => $email), 1);
+                    $password = (is_null($password)) ? null : $password;
+
+                    // Check if password is correct
+                    if ($password === $encrypt_password) {
+                        $user_name = $this->db->select_single($table_name, 'first_name', array('email' => $email), 1);
+                        // Password Correct
+                        $session_set = array(
+                            'id' => $user,
+                            'level' => $table_name,
+                            'name' => $user_name . ' Minga',
+                            'logged' => true
+                        );
+
+                        //Auth Model
+                        require_once 'models/Auth.php';
+                        $this->modal->auth = new Auth;
+
+                        // call auth session
+                        $this->modal->auth->auth_set_session($session_set);
+
+                        // Get name from session
+                        $name = $this->modal->auth->auth_get_session('name');
+
+                        // Redirect
+                        //$this->redirect('home');
+                    } else {
+                        // Password Incorrect
+                        $this->open('signin', 'error', 'Incorrect Password');
+                    }
+                } else {
+
+                    // Account Not Active
+                    $this->open('signin', 'error', 'Account Not Active');
+                }
+            }
+        } elseif ($type == 'logout') {
+            //Auth Model
+            require_once 'models/Auth.php';
+            $this->modal->auth = new Auth;
+
+            // call auth session
+            $this->modal->auth->auth_logout();
         }
     }
 }
 
-/* End of file WebSignup.php */
+/* End of file WebSignin.php */

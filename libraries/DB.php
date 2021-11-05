@@ -53,20 +53,47 @@ class DB
     }
 
     /**
-     * Select Data
+     *
+     * This function help you to select and retun values
+     *
+     * In this function you pass
+     *
+     * 1: Table name
+     *  -> This will be singularize and used to generate column Name
+     *  -> Also pluralize for Table Name
+     *
+     * 2: Pass the selected column name
+     * 3: Pass the comparison values
+     *  array('column'=>'value')
+     *
+     * 4: Pass Limit
+     *
+     * NB: Full Column Name -- will be added by the function 
+     * 
      */
-    public function select($table, $columns, $where = null, $limit = null)
+    public function select($table, $select, $where, $limit = null)
     {
-        // Get Columns
-        if (is_array($columns)) {
-            $columns = implode(',', $columns);
-        }
+        // Construct
+        require_once 'libraries/Plural.php';
+
+        //Modules
+        $module = Plural::singularize($table);
+        $table = Plural::pluralize($module);
+
+        //Columns
+        $select_column = $this->get_column_name($module, $select);
+        $columns = (is_array($select_column)) ? implode(',', array_values($select_column)) : $select_column;
 
         // Where
-        if (is_array($where)) {
-            $where = implode(` AND `, $this->select_values($where));
+        foreach ($where as $key => $value) {
+
+            $column = $this->get_column_name($module, $key);
+            $where_column[$column] = $value; //Set Proper Column Name 
         }
-        $where = (is_null($where)) ? '' : " WHERE $where";
+        if (is_array($where_column)) {
+            $where = implode(` AND `, $this->select_values($where_column));
+        }
+        $where = " WHERE $where";
 
         // Limit
         $limit = (is_null($limit)) ? '' : " LIMIT $limit";
@@ -79,6 +106,52 @@ class DB
         // Return
         if ($result->num_rows > 0) {
             return $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     *
+     * This function help you to select and retun specific column value
+     * You can only select single column value
+     *
+     * In this function you pass
+     *
+     * 1: Module name / Table name
+     *  -> This will be singularize and used to generate column Name
+     *  -> Also pluralize for Table Name
+     *
+     * 2: Pass the selected column name
+     * 3: Pass the comparison values
+     *  array('column'=>'value')
+     *
+     * 4: Pass clause if you want to use Like etc.
+     *
+     * NB: Full Column Name -- will be added by the function 
+     * 
+     */
+    public function select_single($table, $column, $where)
+    {
+        // Select From single column
+        $select = $this->select($table, $column, $where, 1);
+
+        // Return
+        if (!is_null($select)) {
+            // check if character exist in string $column
+            if (strpos($column, ' as ') !== false) {
+                $column = explode(' as ', $column);
+                $column = $column[1];
+            } else {
+                //get column name
+                $column = $this->get_column_name($table, $column);
+            }
+
+            // trim column
+            $column = trim($column);
+
+            // Return
+            return $select[0]["$column"];
         } else {
             return null;
         }
@@ -147,5 +220,32 @@ class DB
 
         // Return
         return $select_column_value;
+    }
+
+    /**
+     * Generate Columns Names
+     *
+     * The function generate proper multiple/single column names
+     * The function accepts
+     * 1: Table Name
+     * 2: Column simple name(s) | as number based array or string 
+     * 
+     */
+    public function get_column_name($table, $column)
+    {
+        // Get Columns
+        if (!is_array($column) && strpos($column, ",") == False) {
+            $column_name = $table . '_' . trim($column); //Column Name
+        } else {
+            if (!is_array($column) && strpos($column, ",") == True) {
+                $column = explode(",", $column); /* Get Column Name */
+            }
+            for ($i = 0; $i < count($column); $i++) {
+                $column_name[$i] = $this->get_column_name($table, $column[$i]); //Column Name
+            }
+        }
+
+        // Return Column
+        return $column_name;
     }
 }
