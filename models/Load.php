@@ -2,6 +2,9 @@
 require_once 'libraries/Model.php';
 require_once 'libraries/Controller.php';
 
+//Require library DB
+require_once 'libraries/DB.php';
+
 class Load extends Model
 {
 
@@ -10,6 +13,8 @@ class Load extends Model
         parent::__construct();
         //Do your magic here
         $this->controller = new Controller;
+        // create instance of DB called $this->db
+        $this->db = new DB;
     }
 
     /**
@@ -27,6 +32,13 @@ class Load extends Model
             'base_url' => $this->controller->base_url(),
             'asset_url' => $this->controller->asset_url(),
         );
+
+        // Get Attachments from DB by selecting options using db->select_order
+        // Pass table name, pass select id and title, pass where(type => attachment) order by (title => ASC)
+        $data['attachments'] = $this->db->select_order('options', 'id,title', array('type' => 'attachment', 'flg' => 1), array('title' => 'ASC'));
+        //Do same for major and availability
+        $data['majors'] = $this->db->select_order('options', 'id,title', array('type' => 'major', 'flg' => 1), array('title' => 'ASC'));
+        $data['availabilities'] = $this->db->select_order('options', 'id,title', array('type' => 'availability', 'flg' => 1), array('id' => 'ASC'));
 
         return $data;
     }
@@ -86,5 +98,27 @@ class Load extends Model
             }
         }
         return $emptyArray;
+    }
+
+    /**
+     * Create method escape 
+     * which escape any HTML special characters and won't allow any HTML tags to be printed
+     * Accepts one parameter
+     * 
+     * if is array it should loop theough the array and escape the values
+     * if is string it should escape the string
+     * 
+     * and return the values
+     */
+    public function escape($data)
+    {
+        if (is_array($data)) {
+            foreach ($data as $key => $value) {
+                $data[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+            }
+        } else {
+            $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
+        }
+        return $data;
     }
 }

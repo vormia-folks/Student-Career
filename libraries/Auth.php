@@ -139,4 +139,15 @@ class Auth extends Model
             return 'blank';
         }
     }
+
+    /**
+     * Generate function auth_dump_session to dump all session
+     */
+    public function auth_dump_session()
+    {
+        // call auth session
+        $this->auth_session();
+        // dump all session
+        var_dump($_SESSION);
+    }
 }

@@ -63,8 +63,8 @@
                                     <!-- PHP check is session level = students include student-nav.php  -->
                                     <?php if ($_SESSION['level'] == 'student') : ?>
                                         <?php require_once 'menu/student-nav.php'; ?>
-                                    <?php elseif ($_SESSION['level'] == 'employer') : ?>
-                                        <?php include 'menu/employer-nav.php'; ?>
+                                    <?php elseif ($_SESSION['level'] == 'company') : ?>
+                                        <?php include 'menu/company-nav.php'; ?>
                                     <?php elseif ($_SESSION['level'] == 'admin') : ?>
                                         <?php include 'menu/admin-nav.php'; ?>
                                     <?php endif; ?>

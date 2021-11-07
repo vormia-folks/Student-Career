@@ -84,13 +84,58 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                <p>
-                                    2 - Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis corporis architecto maxime mollitia exercitationem impedit assumenda! Voluptas, quisquam? Dolores asperiores accusantium reiciendis quaerat sunt dolor sapiente natus, itaque distinctio tenetur.
-                                </p>
+                                <div class="register-form">
+                                    <form class="" action="<?= $base_url; ?>/signup/company" method="post" accept-charset="utf-8" enctype="multipart/form-data" autocomplete="off">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <!-- Notification -->
+                                                <?= $notify; ?>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Enter Company Email <i class="fas fa-asterisk"></i></label>
+                                                    <input type="email" class="form-control" name="email" required>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label"> Phone number <small>Eg. (07xxxxxxx)</small> </label>
+                                                    <input type="text" class="form-control" name="mobile">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Enter Password <i class="fas fa-asterisk"></i></label>
+                                                    <input type="password" class="form-control" name="password" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label"> Confirm Password <i class="fas fa-asterisk"></i></label>
+                                                    <input type="password" class="form-control" name="confirm_password" required>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Submit -->
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <button type="submit" class="btn btn-lg btn-success text-center  w-100">
+                                                    Confirm Registration <i class="fas fa-check"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                             <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
                                 <div class="register-form">
-                                    <form class="" action="<?= $base_url; ?>/login" method="post" accept-charset="utf-8" enctype="multipart/form-data" autocomplete="off">
+                                    <form class="" action="<?= $base_url; ?>/login/valid" method="post" accept-charset="utf-8" enctype="multipart/form-data" autocomplete="off">
                                         <div class="row">
                                             <div class="col-12">
                                                 <!-- Notification -->

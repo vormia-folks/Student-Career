@@ -91,7 +91,7 @@ class DB
             $where_column[$column] = $value; //Set Proper Column Name 
         }
         if (is_array($where_column)) {
-            $where = implode(` AND `, $this->select_values($where_column));
+            $where = implode(' AND ', $this->select_values($where_column));
         }
         $where = " WHERE $where";
 
@@ -152,7 +152,7 @@ class DB
             $where_column[$column] = $value; //Set Proper Column Name 
         }
         if (is_array($where_column)) {
-            $where = implode(` AND `, $this->select_values($where_column));
+            $where = implode(' AND ', $this->select_values($where_column));
         }
         $where = " WHERE $where";
 
@@ -213,6 +213,68 @@ class DB
 
             // Return
             return $select[0]["$column"];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Generate method select_order
+     * @param  string $table
+     * @param  string $select
+     * @param  array $where
+     * @param  array $order_by [optional]
+     * @return int $limit [optional]
+     * @return array or null
+     * 
+     * Use connect() first
+     * Then use get_column_name to get column names from $column
+     * Do same for $where and $order_by
+     * 
+     * write the sql and run the query
+     * return the result
+     * 
+     */
+    public function select_order($table, $select, $where, $order_by = array('id' => 'DESC'), $limit = null)
+    {
+
+        //Modules
+        $module = Plural::singularize($table);
+        $table = Plural::pluralize($module);
+
+        // if $select = * skip columns sequense
+        if ($select == '*') {
+            $columns = "*";
+        } else {
+            $select_column = $this->get_column_name($module, $select);
+            $columns = (is_array($select_column)) ? implode(',', array_values($select_column)) : $select_column;
+        }
+
+        // Where
+        foreach ($where as $key => $value) {
+
+            $column = $this->get_column_name($module, $key);
+            $where_column[$column] = $value; //Set Proper Column Name 
+        }
+        if (is_array($where_column)) {
+            $where = implode(' AND ', $this->select_values($where_column));
+        }
+
+        // Order By
+        foreach ($order_by as $key => $value) {
+
+            $column = $this->get_column_name($module, $key);
+            $order_by_column = "`$column` $value"; //Set Proper Column Name 
+        }
+
+        // Limit
+        $limit = (is_null($limit)) ? '' : " LIMIT $limit";
+
+        // Query
+        $sql = "SELECT $columns FROM $table WHERE $where ORDER BY $order_by_column $limit";
+        $result = $this->db_connect()->query($sql);
+        if ($result->num_rows > 0) {
+            return $result->fetch_all(MYSQLI_ASSOC);
         } else {
             return null;
         }
@@ -322,6 +384,9 @@ class DB
      */
     public function get_column_name($table, $column)
     {
+        // Singularize Table Name
+        $table = Plural::singularize($table);
+
         // Get Columns
         if (!is_array($column) && strpos($column, ",") == False) {
             $column_name = $table . '_' . trim($column); //Column Name

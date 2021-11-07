@@ -1,5 +1,5 @@
     <li>
-        <a href="<?= $base_url; ?>/portal/students">
+        <a href="<?= $base_url; ?>/portal/company">
             <i class="fas fa-home"></i>
             <span>Dashboard</span>
         </a>
@@ -7,7 +7,7 @@
 
 
     <li>
-        <a href="#">
+        <a href="<?= $base_url; ?>/portal/company/intership">
             <i class="fas fa-briefcase"></i>
             <span>Interships</span>
         </a>
@@ -15,7 +15,7 @@
     <li>
         <a href="#">
             <i class="fas fa-laptop-house"></i>
-            <span>Part Time Work</span>
+            <span>Applications</span>
         </a>
     </li>
     <li>
@@ -25,14 +25,8 @@
         </a>
     </li>
     <li>
-        <a href="<?= $base_url; ?>/portal/student/profile">
+        <a href="<?= $base_url; ?>/portal/company/profile">
             <i class="fas fa-user"></i>
             <span>Profile</span>
-        </a>
-    </li>
-    <li>
-        <a href="<?= $base_url; ?>/portal/student/cv">
-            <i class="fas fa-business-time"></i>
-            <span>Your CV</span>
         </a>
     </li>

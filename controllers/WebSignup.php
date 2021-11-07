@@ -163,20 +163,83 @@ class WebSignup extends Controller
             $postData = $this->modal->load->unset($formData, $unset);
             $postData['password'] = sha1($postData['password']);
 
-            // Insert
-            $insertID = $this->db->insert($this->plural->pluralize('student'), $postData);
+            // get the domain top level from email passed
+            $domain = explode('@', $postData['email']);
+            $toplevel = $domain[1];
 
-            // Add Login
-            $loginData = array(
-                'email' => $postData['email'],
-                'account' => $insertID,
-                'type' => 'student',
-            );
-            $this->db->insert($this->plural->pluralize('login'), $loginData);
+            // Get university ID by selecting from university table where toplevel = $toplevel using select_single
+            $university = $this->db->select_single('university', 'id', array('toplevel' => $toplevel), 1);
 
-            //Notification
-            $this->modal->notify->set('success');
-            $message = 'Your Account has been registered';
+            //Check if university !empty or !null
+            if (!empty($university) && !is_null($university)) {
+                $postData['university'] = $university;
+
+                // Insert
+                $insertID = $this->db->insert($this->plural->pluralize('student'), $postData);
+
+                // Add Login
+                $loginData = array(
+                    'email' => $postData['email'],
+                    'account' => $insertID,
+                    'type' => 'student',
+                );
+                $this->db->insert($this->plural->pluralize('login'), $loginData);
+
+                //Notification
+                $this->modal->notify->set('success');
+                $message = 'Your Account has been registered';
+            } else {
+                //Notification
+                $this->modal->notify->set('error');
+                $message = 'Your University is not registered';
+            }
+
+            // Open Page
+            $this->open('access', $message);
+        } elseif ($type == 'company') {
+
+            // Get Form Data
+            $formData = $this->modal->load->input();
+
+            //Do validation Here
+
+            // Unset Data
+            $unset = array('confirm_password');
+
+            // Password Encrypt
+            $postData = $this->modal->load->unset($formData, $unset);
+            $postData['password'] = sha1($postData['password']);
+
+            // get the domain top level from email passed
+            $domain = explode('@', $postData['email']);
+            $toplevel = $domain[1];
+
+            // Get organizations ID by selecting from organization table where toplevel = $toplevel using select_single
+            $organization = $this->db->select_single('organization', 'id', array('toplevel' => $toplevel), 1);
+
+            //Check if organization !empty or !null
+            if (!empty($organization) && !is_null($organization)) {
+                $postData['organization'] = $organization;
+
+                // Insert
+                $insertID = $this->db->insert($this->plural->pluralize('company'), $postData);
+
+                // Add Login
+                $loginData = array(
+                    'email' => $postData['email'],
+                    'account' => $insertID,
+                    'type' => 'company',
+                );
+                $this->db->insert($this->plural->pluralize('login'), $loginData);
+
+                //Notification
+                $this->modal->notify->set('success');
+                $message = 'Your Account has been registered';
+            } else {
+                //Notification
+                $this->modal->notify->set('error');
+                $message = 'Your Organization is not registered';
+            }
 
             // Open Page
             $this->open('access', $message);
