@@ -47,6 +47,12 @@ $route["portal/student/profile/update"] = "PortalStudentsProfile/valid/update"; 
 $route["portal/student/cv"] = "PortalStudentsCv/index"; //Index
 $route["portal/student/cv/update"] = "PortalStudentsCv/valid/update"; //Index
 
+// Intership
+$route["portal/student/intership"] = "PortalStudentsIntership/index"; //Index
+$route["portal/student/intership/apply"] = "PortalStudentsIntership/valid/apply"; //Index
+$route["portal/student/intership/submit"] = "PortalStudentsIntership/valid/save"; //Index
+
+
 /**
  * PORTAL COMPANIES
  */
@@ -62,7 +68,6 @@ $route["portal/company/profile/update"] = "PortalCompaniesProfile/valid/update";
 $route["portal/company/intership"] = "PortalCompaniesIntership/index"; //Index
 $route["portal/company/intership/add"] = "PortalCompaniesIntership/open/add"; //Add New
 $route["portal/company/intership/save"] = "PortalCompaniesIntership/valid/save"; //Update
-
 $route["portal/company/intership/edit/(:num)"] = "PortalCompaniesIntership/edit/edit/id/#1"; //Edit
 $route["portal/company/intership/update"] = "PortalCompaniesIntership/valid/update"; //Update
 $route["portal/company/intership/delete"] = "PortalCompaniesIntership/valid/delete"; //Delete

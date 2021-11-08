@@ -7,7 +7,7 @@
 
 
     <li>
-        <a href="#">
+        <a href="<?= $base_url; ?>/portal/student/intership">
             <i class="fas fa-briefcase"></i>
             <span>Interships</span>
         </a>
@@ -15,7 +15,7 @@
     <li>
         <a href="#">
             <i class="fas fa-laptop-house"></i>
-            <span>Part Time Work</span>
+            <span>Applications</span>
         </a>
     </li>
     <li>
