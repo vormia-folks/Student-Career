@@ -61,54 +61,6 @@ class DB
     }
 
     /**
-     * *** This function help you to update data ***
-     * 
-     * update table values
-     * Accept table name and prularise the table name string
-     * Accept the column name and value to be updated
-     * Accept the where clause
-     */
-    public function update($table, $update, $where)
-    {
-        //Modules
-        $module = Plural::singularize($table);
-        $table = Plural::pluralize($module);
-
-        // Update
-        foreach ($update as $key => $value) {
-            $column = $this->get_column_name($module, $key);
-            $update_column[$column] = $value; //Set Proper Column Name 
-        }
-        if (is_array($update_column)) {
-            $update = $this->update_values($update_column);
-        }
-        $update = " SET $update";
-
-        // Where
-        foreach ($where as $key => $value) {
-
-            $column = $this->get_column_name($module, $key);
-            $where_column[$column] = $value; //Set Proper Column Name 
-        }
-        if (is_array($where_column)) {
-            $where = implode(' AND ', $this->select_values($where_column));
-        }
-        $where = " WHERE $where";
-
-        // Update
-        $conn = $this->db_connect();
-        $sql = "UPDATE `$table` $update $where";
-
-        $result = $conn->query($sql);
-
-        // Return
-        if ($result) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    /**
      *
      * This function help you to select and retun values
      *
@@ -171,6 +123,7 @@ class DB
             return null;
         }
     }
+
 
     /**
      *
@@ -277,6 +230,92 @@ class DB
             return $result->fetch_all(MYSQLI_ASSOC);
         } else {
             return null;
+        }
+    }
+
+    /**
+     * *** This function help you to update data ***
+     * 
+     * update table values
+     * Accept table name and prularise the table name string
+     * Accept the column name and value to be updated
+     * Accept the where clause
+     */
+    public function update($table, $update, $where)
+    {
+        //Modules
+        $module = Plural::singularize($table);
+        $table = Plural::pluralize($module);
+
+        // Update
+        foreach ($update as $key => $value) {
+            $column = $this->get_column_name($module, $key);
+            $update_column[$column] = $value; //Set Proper Column Name 
+        }
+        if (is_array($update_column)) {
+            $update = $this->update_values($update_column);
+        }
+        $update = " SET $update";
+
+        // Where
+        foreach ($where as $key => $value) {
+
+            $column = $this->get_column_name($module, $key);
+            $where_column[$column] = $value; //Set Proper Column Name 
+        }
+        if (is_array($where_column)) {
+            $where = implode(' AND ', $this->select_values($where_column));
+        }
+        $where = " WHERE $where";
+
+        // Update
+        $conn = $this->db_connect();
+        $sql = "UPDATE `$table` $update $where";
+
+        $result = $conn->query($sql);
+
+        // Return
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * *** This function help you to delete data ***
+     * Accept table name and prularise the table name string
+     * Accept the where clause
+     * 
+     */
+    public function delete($table, $where)
+    {
+        //Modules
+        $module = Plural::singularize($table);
+        $table = Plural::pluralize($module);
+
+        // Where
+        foreach ($where as $key => $value) {
+
+            $column = $this->get_column_name($module, $key);
+            $where_column[$column] = $value; //Set Proper Column Name 
+        }
+        if (is_array($where_column)) {
+            $where = implode(' AND ', $this->select_values($where_column));
+        }
+        $where = " WHERE $where";
+
+        // Delete
+        $conn = $this->db_connect();
+        $sql = "DELETE FROM `$table` $where";
+
+        $result = $conn->query($sql);
+
+        // Return
+        if ($result) {
+            return true;
+        } else {
+            return false;
         }
     }
 

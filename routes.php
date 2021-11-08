@@ -61,7 +61,8 @@ $route["portal/company/profile/update"] = "PortalCompaniesProfile/valid/update";
 // Intership
 $route["portal/company/intership"] = "PortalCompaniesIntership/index"; //Index
 $route["portal/company/intership/add"] = "PortalCompaniesIntership/open/add"; //Add New
+$route["portal/company/intership/save"] = "PortalCompaniesIntership/valid/save"; //Update
 
-$route["portal/company/intership/edit"] = "PortalCompaniesIntership/edit/edit"; //Edit
+$route["portal/company/intership/edit/(:num)"] = "PortalCompaniesIntership/edit/edit/id/#1"; //Edit
 $route["portal/company/intership/update"] = "PortalCompaniesIntership/valid/update"; //Update
 $route["portal/company/intership/delete"] = "PortalCompaniesIntership/valid/delete"; //Delete

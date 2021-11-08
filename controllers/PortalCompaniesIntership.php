@@ -76,6 +76,14 @@ class PortalCompaniesIntership extends Controller
             'slogan' => 'Slogan More'
         );
 
+        // Get company ID by selected organization from company table where id = session id using db->select_single
+        $user_id = $this->auth->auth_get_session('id');
+        $data['organization'] = $this->db->select_single('companies', 'organization', array('id' => $user_id));
+
+        // Select university id and name from table university where flg => 1 using db->select
+        $university = $this->db->select('university', '*', array('flg' => 1));
+        $data['universities'] = (!is_null($university)) ? $university : null;
+
         // Return
         return $data;
     }
@@ -126,6 +134,39 @@ class PortalCompaniesIntership extends Controller
 
         //Variable user_id is set to the current session id
         $user_id = $this->auth->auth_get_session('id');
+
+        // select organization id from table companies where id = user_id using db->select_single
+        $organization = $this->db->select_single('companies', 'organization', array('id' => $user_id));
+
+        //  Select all Interships from table interships where organization = organization using db->select
+        $interships = $this->db->select('interships', 'id as id,attachment as type,major as major,availability as availability,university as university,flg as status', array('organization' => $organization));
+        // Add to Data
+        $interships = (!is_null($interships)) ? $interships : null;
+        // If Interships is not null loop get type,major,availability name by selecting title from options where id => internship['type'] using db->select_single
+        if (!is_null($interships)) {
+            foreach ($interships as $key => $intership) {
+                $interships[$key]['type'] = $this->db->select_single('options', 'title', array('id' => $intership['type']));
+                $interships[$key]['major'] = $this->db->select_single('options', 'title', array('id' => $intership['major']));
+                $interships[$key]['availability'] = $this->db->select_single('options', 'title', array('id' => $intership['availability']));
+
+                // If university is null set ANY
+                if (is_null($interships[$key]['university'])) {
+                    $interships[$key]['university'] = 'ANY';
+                } else {
+                    // Else select university name from table university where id = intership['university'] using db->select_single
+                    $interships[$key]['university'] = $this->db->select_single('university', 'name', array('id' => $intership['university']));
+                }
+
+                // If status is 0 set disabled as <button></button> danger else set enabled as button success
+                if ($interships[$key]['status'] == 0) {
+                    $interships[$key]['status'] = '<button class="btn btn-danger">Disabled</button>';
+                } else {
+                    $interships[$key]['status'] = '<button class="btn btn-success">Enabled</button>';
+                }
+            }
+        }
+        // Add to Data
+        $data['interships'] = (!is_null($interships)) ? $interships : null;
 
         // Notification
         $notify = $this->modal->notify->notify();
@@ -199,8 +240,9 @@ class PortalCompaniesIntership extends Controller
 
             //Table Select & Clause
             $where = array($inputTYPE => $inputID);
-            // $user_details = $this->db->select($table, '*', $where);
-            // $data['user_details'] = (!is_null($user_details)) ? (object) $user_details[0] : null;
+            $select = "id as id,organization as organization,attachment as attachment,major as major,availability as availability,paid as paid,university as university,description as description";
+            $intern_details = $this->db->select($table, $select, $where);
+            $data['internshipInfo'] = (!is_null($intern_details)) ? $intern_details[0] : null;
 
             //Notification
             $notify = $this->modal->notify->notify();
@@ -227,7 +269,7 @@ class PortalCompaniesIntership extends Controller
     public function valid($type = null)
     {
         // Check Type
-        if ($type == 'update') {
+        if ($type == 'save') {
             // Get Form Data
             $formData = $this->modal->load->input();
             $emptyValues = $this->modal->load->emptyArrayKey($formData);
@@ -240,21 +282,20 @@ class PortalCompaniesIntership extends Controller
 
             // Input Validation Success
             if (!is_null($user_id)) {
-                // check if $this->update($postData, array('id' => $user_id)) is success 
-                if ($this->update($postData, array('id' => $user_id))) {
+                if ($this->insert($postData)) {
                     //Notification
                     $this->modal->notify->set('success');
-                    $message = 'Profile Updated Successfully';
+                    $message = 'Internship Added Successfully';
 
                     //Redirect to Profile Edit Page
-                    $this->edit('edit', 'id', $user_id, $message);
+                    $this->open('add', $message);
                 } else {
                     //Notification
                     $this->modal->notify->set('error');
-                    $message = 'System could not update your profile';
+                    $message = 'System could not add the Internship';
 
                     //Redirect to Profile Edit Page
-                    $this->edit('edit', 'id', $user_id, $message);
+                    $this->open('add', $message);
                 }
             } else {
 
@@ -262,7 +303,111 @@ class PortalCompaniesIntership extends Controller
                 $message = 'Please check the fields, and try again'; //Notification Message				
 
                 // Account Not Active
-                $this->edit('edit', 'id', $user_id, $message);
+                $this->open('add', $message);
+            }
+        } elseif ($type == 'update') {
+            // Get Form Data
+            $formData = $this->modal->load->input();
+            $emptyValues = $this->modal->load->emptyArrayKey($formData);
+
+            // Unset values using load->unset
+            $postData = $this->modal->load->unset($formData, $emptyValues);
+
+            // Get user ID from session using auth->auth_get_session
+            $user_id = $this->auth->auth_get_session('id');
+            $internship_id = $postData['id'];
+
+            // Array Where id = internship id
+            $where = array('id' => $internship_id);
+            // $postData flg = 0
+            $postData['flg'] = 0;
+            // Unset
+            $postData = $this->modal->load->unset($postData, 'id');
+
+            // Input Validation Success
+            if (!is_null($user_id)) {
+
+                if ($this->update($postData, $where)) {
+                    //Notification
+                    $this->modal->notify->set('success');
+                    $message = 'Internship Updated Successfully';
+
+                    //Redirect to Profile Edit Page
+                    $this->edit('edit', 'id', $internship_id, $message);
+                } else {
+                    //Notification
+                    $this->modal->notify->set('error');
+                    $message = 'System could not update the Internship';
+
+                    //Redirect to Profile Edit Page
+                    $this->edit('edit', 'id', $internship_id, $message);
+                }
+            } else {
+
+                $this->modal->notify->set('error');
+                $message = 'Please check the fields, and try again'; //Notification Message				
+
+                // Account Not Active
+                $this->edit('edit', 'id', $internship_id, $message);
+            }
+        } elseif ($type == 'delete') {
+            // Get Internship ID from Get request id using $this->modal->load->input('id', 'GET');
+            $internship_id = $this->modal->load->input('id', 'GET');
+            // Array Where id = internship id
+            $where = array('id' => $internship_id);
+
+            // Input Validation Success
+            if (!is_null($internship_id)) {
+
+                if ($this->delete($where)) {
+                    //Notification
+                    $this->modal->notify->set('success');
+                    $message = 'Internship Deleted Successfully';
+
+                    //Redirect to Profile Edit Page
+                    $this->index($message);
+                } else {
+                    //Notification
+                    $this->modal->notify->set('error');
+                    $message = 'System could not delete the Internship';
+
+                    //Redirect to Profile Edit Page
+                    $this->index($message);
+                }
+            } else {
+
+                $this->modal->notify->set('error');
+                $message = 'Please check the fields, and try again'; //Notification Message				
+
+                // Account Not Active
+                $this->index($message);
+            }
+        }
+    }
+
+    /**
+     * The function is used to insert data in the table
+     * First parameter is the data to be inserted 
+     * Second Parameter should be Taable Name
+     */
+    public function insert($insertData, $table = null)
+    {
+
+        //Authentication
+        if ($this->auth->auth_check_level('level', $this->PageLevel)) {
+            //Pluralize Table
+            //if is null $table assign $this->plural->pluralize($this->Table) use ternarry operator
+            $table = (!is_null($table)) ? $table : $this->Table;
+            $table = $this->plural->pluralize($table);
+
+            // Insert using db->insert
+            $insertStatus = $this->db->insert($table, $insertData);
+            if ($insertStatus) {
+
+                return true; //Data Inserted
+            } else {
+
+                return false; //Data Insert Failed
             }
         }
     }
@@ -274,7 +419,6 @@ class PortalCompaniesIntership extends Controller
      *      the array key will be used as column name and the value as inputted Data
      *  For colum default/details convert data to JSON on valid() method level
      * Third is the values to be passed in where clause N:B the data needed to be in an associative array form E.g $data = array('column' => 'value');
-     * Fourth is the data to be unset | Unset is to be used if some of the input you wish to be removed
      * 
      */
     public function update($updateData, $valueWhere, $table = null)
@@ -290,6 +434,33 @@ class PortalCompaniesIntership extends Controller
             //Updated table using db->update
             $updatedStatus = $this->db->update($table, $updateData, $valueWhere);
             if ($updatedStatus == true) {
+
+                return true; //Data Inserted
+            } else {
+
+                return false; //Data Insert Failed
+            }
+        }
+    }
+
+    /**
+     * The function is used to delete data in the table
+     * First parameter is the values to be passed in where clause N:B the data needed to be in an associative array form E.g $data = array('column' => 'value');
+     * Second parameter is the table name default is null
+     * 
+     */
+    public function delete($valueWhere, $table = null)
+    {
+        //Authentication
+        if ($this->auth->auth_check_level('level', $this->PageLevel)) {
+            //Pluralize Table
+            //if is null $table assign $this->plural->pluralize($this->Table) use ternarry operator
+            $table = (!is_null($table)) ? $table : $this->Table;
+            $table = $this->plural->pluralize($table);
+
+            //Updated table using db->update
+            $deletedStatus = $this->db->delete($table, $valueWhere);
+            if ($deletedStatus == true) {
 
                 return true; //Data Inserted
             } else {

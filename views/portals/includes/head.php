@@ -28,7 +28,9 @@
         <!-- Fonts Family -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Festive&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500&display=swap" rel="stylesheet"> <!-- Style -->
+        <link href="https://fonts.googleapis.com/css2?family=Festive&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500&display=swap" rel="stylesheet">
+
+        <!-- Style -->
         <link rel="stylesheet" href="<?= $asset_url; ?>/students/css/portal.min.css?<?= time(); ?>">
 
     </head>

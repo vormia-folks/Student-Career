@@ -22,29 +22,41 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Major</th>
+                            <th scope="col">Availability</th>
+                            <th scope="col">University</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td colspan="2">Larry the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
+                        <!-- if interships is not null then loop else tr td no results was found -->
+                        <?php if ($interships != null) { ?>
+                            <?php foreach ($interships as $intership) { ?>
+                                <tr>
+                                    <th scope="row"><?= $intership['id']; ?></th>
+                                    <td><?= $intership['type']; ?></td>
+                                    <td><?= $intership['major']; ?></td>
+                                    <td><?= $intership['availability']; ?></td>
+                                    <td><?= $intership['university']; ?></td>
+                                    <td><?= $intership['status']; ?></td>
+                                    <td>
+                                        <a href="<?= $base_url; ?>/portal/company/intership/edit/<?= $intership['id']; ?>" class="btn btn-primary">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <?php $delete_url = "$base_url/portal/company/intership/delete?id=" . $intership['id']; ?>
+                                        <a onclick="confirmAction('<?= $delete_url; ?>');" class="btn btn-danger">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        <?php } else { ?>
+                            <tr>
+                                <td colspan="7">No results found</td>
+                            </tr>
+                        <?php } ?>
                     </tbody>
                 </table>
             </div>
