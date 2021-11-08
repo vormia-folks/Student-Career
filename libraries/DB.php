@@ -428,7 +428,8 @@ class DB
 
         // Get Columns
         if (!is_array($column) && strpos($column, ",") == False) {
-            $column_name = $table . '_' . trim($column); //Column Name
+            // Generate Column Name
+            $column_name = $this->handle_column_with_dot($table, $column); //Column Name
         } else {
             if (!is_array($column) && strpos($column, ",") == True) {
                 $column = explode(",", $column); /* Get Column Name */
@@ -440,5 +441,30 @@ class DB
 
         // Return Column
         return $column_name;
+    }
+
+    /**
+     * Handle columns with dot
+     * pass table name
+     * pass the column name with dot as string
+     * return the column name with table name
+     */
+    public function handle_column_with_dot($table, $column)
+    {
+        //Check if there is dot in column name use ternary operator
+        $column = (strpos($column, ".") !== false) ? explode(".", $column) : $column;
+        // Check if is $column is array
+        if (is_array($column)) {
+            $module = Plural::pluralize($column[0]); //Module
+            // Singularize Table Name
+            $row = Plural::singularize($column[0]); // Row Name
+            $column =  $module . '.' . $row . '_' . trim($column[1]); //Column Name
+        } else {
+            // Singularize Table Name
+            $table = Plural::singularize($table);
+            $column = $table . '_' . trim($column); //Column Name
+        }
+
+        return $column;
     }
 }

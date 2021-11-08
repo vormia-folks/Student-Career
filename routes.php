@@ -52,6 +52,12 @@ $route["portal/student/intership"] = "PortalStudentsIntership/index"; //Index
 $route["portal/student/intership/apply"] = "PortalStudentsIntership/valid/apply"; //Index
 $route["portal/student/intership/submit"] = "PortalStudentsIntership/valid/save"; //Index
 
+// Application
+$route["portal/student/application"] = "PortalStudentsApplication/index"; //Index
+$route["portal/student/application/edit"] = "PortalStudentsApplication/edit/edit"; //Edit
+$route["portal/student/application/update"] = "PortalStudentsApplication/valid/update"; //Update
+$route["portal/student/application/delete"] = "PortalStudentsApplication/valid/delete"; //Delete
+
 
 /**
  * PORTAL COMPANIES

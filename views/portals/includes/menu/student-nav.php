@@ -13,17 +13,17 @@
         </a>
     </li>
     <li>
-        <a href="#">
+        <a href="<?= $base_url; ?>/portal/student/application">
             <i class="fas fa-laptop-house"></i>
             <span>Applications</span>
         </a>
     </li>
-    <li>
+    <!-- <li>
         <a href="#">
             <i class="fas fa-star-half-alt"></i>
             <span>Ratings</span>
         </a>
-    </li>
+    </li> -->
     <li>
         <a href="<?= $base_url; ?>/portal/student/profile">
             <i class="fas fa-user"></i>

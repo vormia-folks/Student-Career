@@ -39,6 +39,7 @@
                                         <a href="<?= $apply_url; ?>" class="btn btn-primary">
                                             <i class="fa fa-check"></i>
                                             Apply
+                                        </a>
                                     </td>
                                 </tr>
                             <?php } ?>

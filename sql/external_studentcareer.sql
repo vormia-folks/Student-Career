@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 07, 2021 at 05:20 PM
+-- Generation Time: Nov 08, 2021 at 05:40 PM
 -- Server version: 5.7.32
 -- PHP Version: 7.4.12
 
@@ -20,6 +20,30 @@ SET time_zone = "+00:00";
 --
 -- Database: `external_studentcareer`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `applications`
+--
+
+CREATE TABLE `applications` (
+  `application_id` bigint(20) NOT NULL,
+  `application_internship` bigint(20) NOT NULL,
+  `application_student` bigint(20) NOT NULL,
+  `application_description` varchar(2000) DEFAULT NULL,
+  `application_viewed` int(11) NOT NULL DEFAULT '0',
+  `application_status` int(11) DEFAULT NULL,
+  `application_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `application_flg` int(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `applications`
+--
+
+INSERT INTO `applications` (`application_id`, `application_internship`, `application_student`, `application_description`, `application_viewed`, `application_status`, `application_stamp`, `application_flg`) VALUES
+(1, 5, 3, 'I will do my best Two', 0, NULL, '2021-11-08 14:50:54', 1);
 
 -- --------------------------------------------------------
 
@@ -70,6 +94,35 @@ CREATE TABLE `curriculums` (
 
 INSERT INTO `curriculums` (`curriculum_id`, `curriculum_student`, `curriculum_university`, `curriculum_attachment`, `curriculum_availability`, `curriculum_major`, `curriculum_about`, `curriculum_stamp`, `curriculum_flg`) VALUES
 (1, 3, 1, 1, 10, 3, 'I have experience in Programming and Project Management', '2021-11-07 15:03:27', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `interships`
+--
+
+CREATE TABLE `interships` (
+  `intership_id` bigint(20) NOT NULL,
+  `intership_organization` bigint(20) NOT NULL,
+  `intership_attachment` bigint(20) NOT NULL,
+  `intership_major` bigint(20) NOT NULL,
+  `intership_availability` bigint(20) NOT NULL,
+  `intership_paid` varchar(15) DEFAULT NULL,
+  `intership_university` bigint(20) DEFAULT NULL,
+  `intership_description` varchar(5000) DEFAULT NULL,
+  `intership_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `intership_flg` int(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `interships`
+--
+
+INSERT INTO `interships` (`intership_id`, `intership_organization`, `intership_attachment`, `intership_major`, `intership_availability`, `intership_paid`, `intership_university`, `intership_description`, `intership_stamp`, `intership_flg`) VALUES
+(2, 3, 6, 12, 2, 'paid', NULL, NULL, '2021-11-08 07:18:14', 1),
+(3, 3, 8, 14, 11, 'paid', 2, 'If well archived we can hire for a long term employment Job', '2021-11-08 07:29:45', 1),
+(4, 3, 5, 3, 9, 'none-paid', 3, NULL, '2021-11-08 07:30:16', 1),
+(5, 3, 5, 3, 11, 'paid', 1, 'Expert in Web and mobile App development', '2021-11-08 07:43:11', 0);
 
 -- --------------------------------------------------------
 
@@ -224,6 +277,12 @@ INSERT INTO `universities` (`university_id`, `university_name`, `university_webs
 --
 
 --
+-- Indexes for table `applications`
+--
+ALTER TABLE `applications`
+  ADD PRIMARY KEY (`application_id`);
+
+--
 -- Indexes for table `companies`
 --
 ALTER TABLE `companies`
@@ -234,6 +293,12 @@ ALTER TABLE `companies`
 --
 ALTER TABLE `curriculums`
   ADD PRIMARY KEY (`curriculum_id`);
+
+--
+-- Indexes for table `interships`
+--
+ALTER TABLE `interships`
+  ADD PRIMARY KEY (`intership_id`);
 
 --
 -- Indexes for table `logins`
@@ -270,6 +335,12 @@ ALTER TABLE `universities`
 --
 
 --
+-- AUTO_INCREMENT for table `applications`
+--
+ALTER TABLE `applications`
+  MODIFY `application_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `companies`
 --
 ALTER TABLE `companies`
@@ -280,6 +351,12 @@ ALTER TABLE `companies`
 --
 ALTER TABLE `curriculums`
   MODIFY `curriculum_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `interships`
+--
+ALTER TABLE `interships`
+  MODIFY `intership_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `logins`
