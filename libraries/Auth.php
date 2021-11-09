@@ -85,6 +85,23 @@ class Auth extends Model
         }
     }
 
+    /**
+     *
+     * This function is used to remove session
+     * 
+     * Pass session name as variable
+     * 
+     */
+    public function auth_remove_session($session)
+    {
+        // call auth session
+        $this->auth_session();
+        // check session is set or not
+        if (isset($_SESSION[$session])) {
+            unset($_SESSION[$session]);
+        }
+    }
+
     // check is session level is equal to passed variable
     // accept session name and level name
     public function auth_check_level($session, $level)
@@ -149,5 +166,27 @@ class Auth extends Model
         $this->auth_session();
         // dump all session
         var_dump($_SESSION);
+    }
+
+    /**
+     * Generate function get_form_values
+     * Get validation errors/value from sesstion form_error/form_value
+     * Decode and retur array
+     * 
+     */
+    public function get_form_values($form_session = 'form_error')
+    {
+        // call auth session
+        $this->auth_session();
+        // check session form_error is set or not
+        if (isset($_SESSION[$form_session])) {
+            // decode session form_error
+            $value = json_decode($_SESSION[$form_session]);
+            // destroy session form_error
+            unset($_SESSION[$form_session]);
+            return $value;
+        } else {
+            return false;
+        }
     }
 }

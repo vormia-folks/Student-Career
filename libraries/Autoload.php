@@ -2,6 +2,7 @@
 
 // Include Global Requred Library Here
 require_once 'libraries/Controller.php';
+require_once 'libraries/Validation.php';
 require_once 'libraries/Plural.php';
 require_once 'libraries/DB.php';
 

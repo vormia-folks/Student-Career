@@ -444,6 +444,35 @@ class DB
     }
 
     /**
+     * Generate Get Table Name Method
+     * 
+     * Pass processed column name
+     * if is not array check if there is a dot in the column name 
+     * if there is a dot then extract the table name from the column name
+     * if there is no dot then return the table name by explode the column name where ther is _ 
+     * Pluralize the table name
+     *  check if is array then loop while calling the function
+     */
+    public function get_table_name($column)
+    {
+        if (!is_array($column)) {
+            if (strpos($column, ".") == True) {
+                $table = explode(".", $column);
+                $table = $table[0];
+            } else {
+                $table = explode("_", $column);
+                $table = $table[0];
+            }
+            $table = Plural::pluralize($table);
+        } else {
+            for ($i = 0; $i < count($column); $i++) {
+                $table[$i] = $this->get_table_name($column[$i]);
+            }
+        }
+        return $table;
+    }
+
+    /**
      * Handle columns with dot
      * pass table name
      * pass the column name with dot as string

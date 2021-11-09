@@ -1,6 +1,7 @@
 <?php
 require_once 'libraries/Model.php';
 require_once 'libraries/Controller.php';
+require_once 'libraries/Auth.php';
 
 //Require library DB
 require_once 'libraries/DB.php';
@@ -39,6 +40,11 @@ class Load extends Model
         //Do same for major and availability
         $data['majors'] = $this->db->select_order('options', 'id,title', array('type' => 'major', 'flg' => 1), array('title' => 'ASC'));
         $data['availabilities'] = $this->db->select_order('options', 'id,title', array('type' => 'availability', 'flg' => 1), array('id' => 'ASC'));
+
+        //Validation Erros
+        $this->auth = new Auth;
+        $data['form_error'] = $this->auth->get_form_values();
+        $data['form_value'] = $this->auth->get_form_values('form_value');
 
         return $data;
     }
