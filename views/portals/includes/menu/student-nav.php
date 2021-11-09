@@ -18,12 +18,6 @@
             <span>Applications</span>
         </a>
     </li>
-    <!-- <li>
-        <a href="#">
-            <i class="fas fa-star-half-alt"></i>
-            <span>Ratings</span>
-        </a>
-    </li> -->
     <li>
         <a href="<?= $base_url; ?>/portal/student/profile">
             <i class="fas fa-user"></i>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 08, 2021 at 05:40 PM
+-- Generation Time: Nov 09, 2021 at 11:08 AM
 -- Server version: 5.7.32
 -- PHP Version: 7.4.12
 
@@ -34,6 +34,7 @@ CREATE TABLE `applications` (
   `application_description` varchar(2000) DEFAULT NULL,
   `application_viewed` int(11) NOT NULL DEFAULT '0',
   `application_status` int(11) DEFAULT NULL,
+  `application_response` varchar(1000) DEFAULT NULL,
   `application_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `application_flg` int(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -42,8 +43,8 @@ CREATE TABLE `applications` (
 -- Dumping data for table `applications`
 --
 
-INSERT INTO `applications` (`application_id`, `application_internship`, `application_student`, `application_description`, `application_viewed`, `application_status`, `application_stamp`, `application_flg`) VALUES
-(1, 5, 3, 'I will do my best Two', 0, NULL, '2021-11-08 14:50:54', 1);
+INSERT INTO `applications` (`application_id`, `application_internship`, `application_student`, `application_description`, `application_viewed`, `application_status`, `application_response`, `application_stamp`, `application_flg`) VALUES
+(1, 5, 3, 'I will do my best Two', 1, 1, 'Good approved', '2021-11-08 14:50:54', 1);
 
 -- --------------------------------------------------------
 
