@@ -56,6 +56,7 @@ class Validation extends Model
                 }
             }
         }
+
         if (empty($errors)) {
             return true;
         }
@@ -264,6 +265,32 @@ class Validation extends Model
         }
     }
 
+    // Function to check if is unique
+    public function is_valid_email($value, $param = null)
+    {
+
+        $table = $this->db->get_table_name($param);
+        $field = $this->db->get_column_name($table, $param);
+
+        // Select Emails
+        $found_emails = $this->db->select($table, "$param as emails", array('flg' => 1));
+
+        // Check if $found_emails is array change to index array
+        if (is_array($found_emails)) {
+            $found_emails = array_column($found_emails, 'emails');
+
+            // Get $value top level domain
+            $top_level_domain = substr(strrchr($value, "@"), 1);
+
+            // Check if $top_level_domain is found among $found_emails
+            if (in_array($top_level_domain, $found_emails)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
     // Valid mobile number
     public function valid_mobile($value, $param = null)
     {
@@ -276,8 +303,15 @@ class Validation extends Model
     //matches
     public function matches($value, $param = null)
     {
+        // Check if $_POST has value, if not $_GET
         if (isset($_POST[$param])) {
-            if ($value == $_POST[$param]) {
+            $field = $_POST;
+        } else {
+            $field = $_GET;
+        }
+
+        if (isset($field[$param])) {
+            if ($value == $field[$param]) {
                 return true;
             }
         }
@@ -308,6 +342,9 @@ class Validation extends Model
                 break;
             case 'email':
                 $message = 'The ' . $field . ' field must contain a valid email address.';
+                break;
+            case 'is_valid_email':
+                $message = 'The ' . $field . ' you entered is not among partnered organizations.';
                 break;
             case 'url':
                 $message = 'The ' . $field . ' field must contain a valid URL.';
