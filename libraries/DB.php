@@ -114,6 +114,7 @@ class DB
         // Select
         $conn = $this->db_connect();
         $sql = "SELECT $columns FROM `$table` $where $limit";
+
         $result = $conn->query($sql);
 
         // Return
