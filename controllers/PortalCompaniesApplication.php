@@ -314,6 +314,14 @@ class PortalCompaniesApplication extends Controller
             $formData = $this->modal->load->input();
             $emptyValues = $this->modal->load->emptyArrayKey($formData);
 
+            // Validation Rules
+            $rules = array(
+                'application' => 'required|integer',
+                'response' => 'max:1000',
+            );
+            // Validation using $this->valid
+            $valid = $this->valid->validate($formData, $rules);
+
             // Unset values using load->unset
             $postData = $this->modal->load->unset($formData, $emptyValues);
 
@@ -330,7 +338,7 @@ class PortalCompaniesApplication extends Controller
             $postData = $this->modal->load->unset($postData, 'application');
 
             // Input Validation Success
-            if (True) {
+            if ($this->valid->validation_check($valid) === false) {
 
                 if ($this->update($postData, $where)) {
                     //Notification
@@ -359,6 +367,13 @@ class PortalCompaniesApplication extends Controller
             // Get Form Data
             $formData = $this->modal->load->input();
             $emptyValues = $this->modal->load->emptyArrayKey($formData);
+            // Validation Rules
+            $rules = array(
+                'application' => 'required|integer',
+                'response' => 'max:1000',
+            );
+            // Validation using $this->valid
+            $valid = $this->valid->validate($formData, $rules);
 
             // Unset values using load->unset
             $postData = $this->modal->load->unset($formData, $emptyValues);
@@ -376,7 +391,7 @@ class PortalCompaniesApplication extends Controller
             $postData = $this->modal->load->unset($postData, 'application');
 
             // Input Validation Success
-            if (True) {
+            if ($this->valid->validation_check($valid) === false) {
 
                 if ($this->update($postData, $where)) {
                     //Notification

@@ -20,11 +20,12 @@
                                     <option>No Option</option>
                                 <?php else : ?>
                                     <?php foreach ($attachments as $attachment) : ?>
-                                        <option value="<?= $attachment['option_id']; ?>"><?= $attachment['option_title']; ?></option>
+                                        <?php $selected = ($attachment['option_id'] == $form_value->attachment) ? 'selected' : ''; ?>
+                                        <option value="<?= $attachment['option_id']; ?>" <?= $selected; ?>><?= $attachment['option_title']; ?></option>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </select>
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->attachment; ?></span>
                         </div>
                     </div>
 
@@ -37,11 +38,12 @@
                                     <option>No Option</option>
                                 <?php else : ?>
                                     <?php foreach ($availabilities as $availability) : ?>
-                                        <option value="<?= $availability['option_id']; ?>"><?= $availability['option_title']; ?></option>
+                                        <?php $selected = ($availability['option_id'] == $form_value->availability) ? 'selected' : ''; ?>
+                                        <option value="<?= $availability['option_id']; ?>" <?= $selected; ?>><?= $availability['option_title']; ?></option>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </select>
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->availability; ?></span>
                         </div>
                     </div>
 
@@ -53,11 +55,12 @@
                                     <option>No Option</option>
                                 <?php else : ?>
                                     <?php foreach ($majors as $major) : ?>
-                                        <option value="<?= $major['option_id']; ?>"><?= $major['option_title']; ?></option>
+                                        <?php $selected = ($major['option_id'] == $form_value->major) ? 'selected' : ''; ?>
+                                        <option value="<?= $major['option_id']; ?>" <?= $selected; ?>><?= $major['option_title']; ?></option>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </select>
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->major; ?></span>
                         </div>
                     </div>
 
@@ -65,10 +68,10 @@
                         <div class="mb-3">
                             <label class="form-label">Paid <i class="fas fa-asterisk"></i></label>
                             <select class="form-select" aria-label="Default select example" name="paid">
-                                <option value="paid">Paid Intern</option>
-                                <option value="none-paid">None Pay Intern</option>
+                                <option value="paid" <?= ('paid' == $form_value->paid) ? 'selected' : ''; ?>>Paid Intern</option>
+                                <option value="none-paid" <?= ('none-paid' == $form_value->paid) ? 'selected' : ''; ?>>None Pay Intern</option>
                             </select>
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->paid; ?></span>
                         </div>
                     </div>
                 </div>
@@ -83,11 +86,12 @@
                                     <option>None Found</option>
                                 <?php else : ?>
                                     <?php foreach ($universities as $university) : ?>
-                                        <option value="<?= $university['university_id']; ?>"><?= $university['university_name']; ?></option>
+                                        <?php $selected = ($university['university_id'] == $form_value->university) ? 'selected' : ''; ?>
+                                        <option value="<?= $university['university_id']; ?>" <?= $selected; ?>><?= $university['university_name']; ?></option>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </select>
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->university; ?></span>
                         </div>
                     </div>
                 </div>
@@ -96,7 +100,8 @@
                     <div class="col-md-12">
                         <div class="mb-3">
                             <label class="form-label">About The Internship <i class="fas fa-asterisk"></i></label>
-                            <textarea class="form-control" rows="10" name="description"></textarea>
+                            <textarea class="form-control" rows="10" name="description"><?= $form_value->description; ?></textarea>
+                            <span class="error"><?= $form_error->description; ?></span>
                         </div>
                     </div>
                 </div>

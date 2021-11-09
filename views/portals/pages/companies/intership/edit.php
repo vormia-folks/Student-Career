@@ -26,7 +26,7 @@
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </select>
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->attachment; ?></span>
                         </div>
                     </div>
 
@@ -43,7 +43,7 @@
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </select>
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->availability; ?></span>
                         </div>
                     </div>
 
@@ -59,7 +59,7 @@
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </select>
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->major; ?></span>
                         </div>
                     </div>
 
@@ -70,7 +70,7 @@
                                 <option value="paid" <?= ('paid' == $internshipInfo['paid']) ? 'selected' : ''; ?>>Paid Intern</option>
                                 <option value="none-paid" <?= ('none-paid' == $internshipInfo['paid']) ? 'selected' : ''; ?>>None Pay Intern</option>
                             </select>
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->paid; ?></span>
                         </div>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                         <div class="mb-3">
                             <label class="form-label">Targeted University <i class="fas fa-asterisk"></i></label>
                             <select class="form-select" aria-label="Default select example" name="university">
-                                <option value="0">--- Any ---</option>
+                                <option value="0" <?= (0 == $internshipInfo['university']) ? 'selected' : ''; ?>>--- Any ---</option>
                                 <?php if (is_null($universities)) : ?>
                                     <option>None Found</option>
                                 <?php else : ?>
@@ -90,7 +90,7 @@
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </select>
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->university; ?></span>
                         </div>
                     </div>
                 </div>
@@ -100,6 +100,7 @@
                         <div class="mb-3">
                             <label class="form-label">About The Internship <i class="fas fa-asterisk"></i></label>
                             <textarea class="form-control" rows="10" name="description"><?= $internshipInfo['description']; ?></textarea>
+                            <span class="error"><?= $form_error->description; ?></span>
                         </div>
                     </div>
                 </div>

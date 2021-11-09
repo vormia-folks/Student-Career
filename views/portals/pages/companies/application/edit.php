@@ -167,6 +167,7 @@
                         <div class="mb-3">
                             <label class="form-label">Response <small>(optional)</small></label>
                             <textarea class="form-control" rows="4" name="response"><?= $response; ?></textarea>
+                            <span class="error"><?= $form_error->response; ?></span>
                         </div>
                     </div>
                 </div>

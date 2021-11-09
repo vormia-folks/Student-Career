@@ -35,6 +35,7 @@ class PortalCompaniesIntership extends Controller
 
         // Libraries Instance
         $this->plural = new Plural;
+        $this->valid = new Validation;
 
         //Do your magic here
     }
@@ -273,6 +274,17 @@ class PortalCompaniesIntership extends Controller
             // Get Form Data
             $formData = $this->modal->load->input();
             $emptyValues = $this->modal->load->emptyArrayKey($formData);
+            $rules = array(
+                'organization' => 'required|integer',
+                'attachment' => 'required|integer',
+                'availability' => 'required|integer',
+                'major' => 'required|integer',
+                'paid' => 'required|min:4|max:10',
+                'university' => 'integer',
+                'description' => 'required|max:1000',
+            );
+            // Validation using $this->valid
+            $valid = $this->valid->validate($formData, $rules);
 
             // Unset values using load->unset
             $postData = $this->modal->load->unset($formData, $emptyValues);
@@ -281,7 +293,7 @@ class PortalCompaniesIntership extends Controller
             $user_id = $this->auth->auth_get_session('id');
 
             // Input Validation Success
-            if (!is_null($user_id)) {
+            if ($this->valid->validation_check($valid) === false) {
                 if ($this->insert($postData)) {
                     //Notification
                     $this->modal->notify->set('success');
@@ -309,6 +321,17 @@ class PortalCompaniesIntership extends Controller
             // Get Form Data
             $formData = $this->modal->load->input();
             $emptyValues = $this->modal->load->emptyArrayKey($formData);
+            $rules = array(
+                'id' => 'required|integer',
+                'attachment' => 'required|integer',
+                'availability' => 'required|integer',
+                'major' => 'required|integer',
+                'paid' => 'required|min:4|max:10',
+                'university' => 'integer',
+                'description' => 'required|max:1000',
+            );
+            // Validation using $this->valid
+            $valid = $this->valid->validate($formData, $rules);
 
             // Unset values using load->unset
             $postData = $this->modal->load->unset($formData, $emptyValues);
@@ -325,7 +348,7 @@ class PortalCompaniesIntership extends Controller
             $postData = $this->modal->load->unset($postData, 'id');
 
             // Input Validation Success
-            if (!is_null($user_id)) {
+            if ($this->valid->validation_check($valid) === false) {
 
                 if ($this->update($postData, $where)) {
                     //Notification
