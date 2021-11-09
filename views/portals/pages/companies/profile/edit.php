@@ -31,7 +31,7 @@
                 <div class="row">
                     <div class="col-md-4 col-sm-6">
                         <div class="mb-3">
-                            <label class="form-label">Student Email <i class="fas fa-asterisk"></i></label>
+                            <label class="form-label">Company Email <i class="fas fa-asterisk"></i></label>
                             <input type="email" class="form-control" name="email" required value="<?= $user_details->company_email; ?>">
                             <span class="error"><?= $form_error->email; ?></span>
                         </div>
