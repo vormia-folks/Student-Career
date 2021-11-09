@@ -49,7 +49,7 @@ $get_request = (!is_null($get_request)) ? $get_request[1] : null;
 
 // Require The Controller
 $controllerName = $controllerPassed[0];
-require_once("controllers/" . $controllerName);
+require_once("apps/" . $controllerName);
 $controller = new $controllerClass;
 
 // Call Controller Method
