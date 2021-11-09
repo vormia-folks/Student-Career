@@ -20,7 +20,7 @@
                         </div>
                     </div>
 
-                    <div class="search-box justify-content-center">
+                    <div class="search-box justify-content-center" style="display: none;">
                         <form action="" class="text-center">
                             <div class="row g-3">
                                 <div class="col-md-6">

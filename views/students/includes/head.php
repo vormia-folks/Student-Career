@@ -52,16 +52,16 @@
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="<?= $base_url; ?>">Home</a>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="#">Careers</a>
+                            </li> -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?= $base_url; ?>/students">Students</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Students</a>
+                                <a class="nav-link" href="<?= $base_url; ?>/companies">Employer</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Employer</a>
-                            </li>
-                            <li class="nav-item dropdown">
+                            <!-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     More
                                 </a>
@@ -70,10 +70,10 @@
                                     <li><a class="dropdown-item" href="#">About Us</a></li>
                                     <li><a class="dropdown-item" href="#">Contact Us</a></li>
                                 </ul>
-                            </li>
+                            </li> -->
                         </ul>
                         <span class="nav-item">
-                            <a href="<?= $base_url; ?>/access" class="btn btn-sm btn-primary btn-solid-sm">Signup/Signin</a>
+                            <a href="<?= $base_url; ?>/login" class="btn btn-sm btn-primary btn-solid-sm">Login</a>
                         </span>
                     </div>
                 </div>

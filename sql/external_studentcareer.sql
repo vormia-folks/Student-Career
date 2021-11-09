@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 09, 2021 at 11:08 AM
+-- Generation Time: Nov 09, 2021 at 02:59 PM
 -- Server version: 5.7.32
 -- PHP Version: 7.4.12
 
@@ -155,7 +155,8 @@ INSERT INTO `logins` (`login_id`, `login_email`, `login_account`, `login_type`, 
 (8, '20allan@spu.ac.ke', 8, 'student', '2021-11-07 11:19:55', 1),
 (10, 'info@eabl.com', 2, 'company', '2021-11-07 16:24:50', 1),
 (11, 'info@safaricom.co.ke', 3, 'company', '2021-11-07 16:46:21', 1),
-(12, 'info@kcbgroup.com', 4, 'company', '2021-11-07 16:47:48', 1);
+(12, 'info@kcbgroup.com', 4, 'company', '2021-11-07 16:47:48', 1),
+(13, '13s01acs02@anu.ac.ke', 9, 'student', '2021-11-09 14:49:09', 1);
 
 -- --------------------------------------------------------
 
@@ -247,7 +248,8 @@ INSERT INTO `students` (`student_id`, `student_first_name`, `student_last_name`,
 (5, 'Dennis', 'Shiraho', '14s03adit005@anu.ac.ke', '', NULL, 1, '7d38307ef52e802145060851c5225f7e02dd9581', '2021-11-05 17:33:54', 1),
 (6, 'Brain', 'Obebo', '17j01acs@anu.ac.ke', '', NULL, 1, '7d38307ef52e802145060851c5225f7e02dd9581', '2021-11-05 17:36:23', 1),
 (7, 'Alpha', 'Guru', 'alphaguru@kemu.ac.ke', '', NULL, 3, '7d38307ef52e802145060851c5225f7e02dd9581', '2021-11-05 17:50:41', 1),
-(8, 'Allan', 'Mukami', '20allan@spu.ac.ke', '', NULL, 2, '7d38307ef52e802145060851c5225f7e02dd9581', '2021-11-07 11:19:55', 1);
+(8, 'Allan', 'Mukami', '20allan@spu.ac.ke', '', NULL, 2, '7d38307ef52e802145060851c5225f7e02dd9581', '2021-11-07 11:19:55', 1),
+(9, 'Brian', 'Obebo', '13s01acs02@anu.ac.ke', '708229611', NULL, 1, '7d38307ef52e802145060851c5225f7e02dd9581', '2021-11-09 14:49:09', 1);
 
 -- --------------------------------------------------------
 
@@ -363,7 +365,7 @@ ALTER TABLE `interships`
 -- AUTO_INCREMENT for table `logins`
 --
 ALTER TABLE `logins`
-  MODIFY `login_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `login_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `options`
@@ -381,7 +383,7 @@ ALTER TABLE `organizations`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `student_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `student_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `universities`

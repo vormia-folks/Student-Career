@@ -22,9 +22,11 @@ $route["home"] = "WebHome"; //Index
 
 // Signup
 $route["access"] = "WebSignup"; //Index
+$route["students"] = "WebSignup/open/student"; //Index
 $route["signup/student"] = "WebSignup/valid/student"; //Index
 
 // Signup
+$route["companies"] = "WebSignup/open/company"; //Index
 $route["signup/company"] = "WebSignup/valid/company"; //Index
 
 // Signin
