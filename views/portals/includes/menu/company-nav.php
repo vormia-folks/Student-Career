@@ -1,9 +1,9 @@
-    <li>
+    <!-- <li>
         <a href="<?= $base_url; ?>/portal/company">
             <i class="fas fa-home"></i>
             <span>Dashboard</span>
         </a>
-    </li>
+    </li> -->
 
 
     <li>

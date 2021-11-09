@@ -37,7 +37,7 @@ $route["logout"] = "WebSignin/valid/logout"; //Index
  */
 
 //Dashboard
-$route["portal/student"] = "PortalStudents/index"; //Index
+$route["portal/student"] = "PortalStudentsIntership/index"; //"PortalStudents/index"; //Index
 
 // Profile
 $route["portal/student/profile"] = "PortalStudentsProfile/index"; //Index
@@ -65,7 +65,7 @@ $route["portal/student/application/view"] = "PortalStudentsApplication/valid/vie
  */
 
 //Dashboard
-$route["portal/company"] = "PortalCompanies/index"; //Index
+$route["portal/company"] = "PortalCompaniesProfile/index"; //"PortalCompanies/index"; //Index
 
 // Profile
 $route["portal/company/profile"] = "PortalCompaniesProfile/index"; //Index
