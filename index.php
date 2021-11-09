@@ -44,6 +44,10 @@ if ($para_key > 0) {
  * Check Get Request
  */
 $get_request_checker = end($uri_array);
+// check $get_request_checker is array
+if (!is_array($get_request_checker)) {
+    $get_request_checker = array();
+}
 $get_request = (count($get_request_checker) > 0) ? explode('?', $get_request_checker) : null;
 $get_request = (!is_null($get_request)) ? $get_request[1] : null;
 

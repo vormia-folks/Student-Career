@@ -28,7 +28,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label">Enter Student Email <i class="fas fa-asterisk"></i></label>
+                                                    <label class="form-label">Enter Email <i class="fas fa-asterisk"></i></label>
                                                     <input type="email" class="form-control" name="email" value="<?= $form_value->email; ?>">
                                                     <span class="error"><?= $form_error->email; ?></span>
                                                 </div>

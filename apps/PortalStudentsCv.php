@@ -254,7 +254,7 @@ class PortalStudentsCv extends Controller
 
             // Validation Rules
             $rules = array(
-                'id' => 'required|integer',
+                // 'id' => 'required|integer',
                 'attachment' => 'required|integer',
                 'availability' => 'required|integer',
                 'major' => 'required|integer',

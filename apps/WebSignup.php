@@ -159,7 +159,7 @@ class WebSignup extends Controller
                 'first_name' => 'required|min:2|max:20',
                 'last_name' => 'required|min:2|max:20',
                 'email' => 'required|email|is_unique:student.email|is_valid_email:universities.toplevel|max:30',
-                'phone_number' => 'valid_mobile|min:10',
+                'phone_number' => 'valid_mobile|min_length:10',
                 'password' => 'required|min:6',
                 'confirm_password' => 'required|min:6|matches:password',
             );
@@ -233,7 +233,7 @@ class WebSignup extends Controller
 
             $rules = array(
                 'email' => 'required|email|is_unique:company.email|is_valid_email:organizations.toplevel|max:30',
-                'mobile' => 'valid_mobile|min:10',
+                'mobile' => 'valid_mobile|min_length:10',
                 'password' => 'required|min:6',
                 'confirm_password' => 'required|min:6|matches:password',
             );

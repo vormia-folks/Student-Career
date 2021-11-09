@@ -35,6 +35,7 @@ class PortalCompaniesApplication extends Controller
 
         // Libraries Instance
         $this->plural = new Plural;
+        $this->valid = new Validation;
 
         //Do your magic here
     }
