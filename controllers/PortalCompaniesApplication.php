@@ -3,7 +3,7 @@
 // Use Autoload To Access Libraries & Model
 require_once 'libraries/PortalAutoload.php';
 
-class PortalStudentsApplication extends Controller
+class PortalCompaniesApplication extends Controller
 {
 
     /**
@@ -13,9 +13,9 @@ class PortalStudentsApplication extends Controller
      */
     public $Table = 'applications'; //View Folder
     public $Layout = 'portals'; //View Folder
-    public $Folder = 'student'; //View Dir Name
+    public $Folder = 'companies'; //View Dir Name
     public $SubFolder = '/application';
-    public $PageLevel = 'student';
+    public $PageLevel = 'company';
 
     /**
      *
@@ -76,6 +76,10 @@ class PortalStudentsApplication extends Controller
             'slogan' => 'Slogan More'
         );
 
+        // Get company ID by selected organization from company table where id = session id using db->select_single
+        $user_id = $this->auth->auth_get_session('id');
+        $data['organization'] = $this->db->select_single('companies', 'organization', array('id' => $user_id));
+
         // Return
         return $data;
     }
@@ -127,6 +131,9 @@ class PortalStudentsApplication extends Controller
         //Variable user_id is set to the current session id
         $user_id = $this->auth->auth_get_session('id');
 
+        // select organization id from table companies where id = user_id using db->select_single
+        $organization = $this->db->select_single('companies', 'organization', array('id' => $user_id));
+
         // Prepaire Query
         $select = 'application.id as id,intership.organization as company,intership.university as university,application.viewed as viewed,application.flg as status';
         $select_column = $this->db->get_column_name($this->Table, $select);
@@ -138,7 +145,7 @@ class PortalStudentsApplication extends Controller
         $conn = $this->db->db_connect();
         $sql = "SELECT $columns FROM `$table`";
         $sql .= " INNER JOIN interships ON applications.application_internship = interships.intership_id";
-        $sql .= " WHERE applications.application_student = $user_id";
+        $sql .= " WHERE interships.intership_organization = $organization";
         // Order By
         $sql .= " ORDER BY applications.application_id DESC";
         $result = $conn->query($sql);
@@ -155,7 +162,6 @@ class PortalStudentsApplication extends Controller
                 $applications[$key]['company'] = $this->db->select_single('organizations', 'name', ['id' => $value['company']]);
                 $applications[$key]['university'] = $this->db->select_single('universities', 'name', ['id' => $value['university']]);
                 $applications[$key]['viewed'] = ($value['viewed'] == 1) ? '<span class="badge bg-success">Viewed</span>' : '<span class="badge bg-danger">Not Viewed</span>';
-                $applications[$key]['show'] = $value['viewed'];
 
                 // If status is 0 set disabled as <button></button> danger else set enabled as button success
                 if ($applications[$key]['status'] == 0) {
@@ -258,6 +264,25 @@ class PortalStudentsApplication extends Controller
             $data['description'] = $this->db->select_single($this->Table, 'description', $where);
             // Add Application id
             $data['application_id'] = $inputID;
+            $data['response'] = $this->db->select_single($this->Table, 'response', $where);
+
+            // Response Status
+            $data['response'] = $this->db->select_single($this->Table, 'response', $where);
+            $status = $this->db->select_single($this->Table, 'status', $where);
+
+            $response = null;
+            if ($status == 1) {
+                $response = 'You have accepted this application';
+            } elseif ($status == 2) {
+                $response = 'You have rejected this application';
+            }
+
+            // Response
+            if (!is_null($response)) {
+                $data['response_message'] = "<div class='alert alert-info' role='alert'>$response</div>";
+            } else {
+                $data['response_message'] = '';
+            }
 
             //Notification
             $notify = $this->modal->notify->notify();
@@ -284,149 +309,97 @@ class PortalStudentsApplication extends Controller
     public function valid($type = null)
     {
         // Check Type
-        if ($type == 'update') {
+        if ($type == 'approve') {
             // Get Form Data
             $formData = $this->modal->load->input();
             $emptyValues = $this->modal->load->emptyArrayKey($formData);
+
             // Unset values using load->unset
             $postData = $this->modal->load->unset($formData, $emptyValues);
 
-            // Application ID
-            $application_id = $postData['application'];
+            // Get user ID from session using auth->auth_get_session
+            $application = $postData['application'];
 
-            // Unset application
+            // Array Where id = internship id
+            $where = array('id' => $application);
+            // $postData flg = 0
+            $postData['viewed'] = 1;
+            $postData['status'] = 1;
+
+            // Unset
             $postData = $this->modal->load->unset($postData, 'application');
 
-            // Where
-            $where = array('id' => $application_id);
+            // Input Validation Success
+            if (True) {
 
-            // Using $where select internship and student from applications using select
-            $application = $this->db->select($this->Table, 'internship as internship, student as student', $where);
-            // Check if application is not null if is not null return array 0 else null use ternar operator
-            $application = (!is_null($application)) ? $application[0] : null;
-            // Get internship and student from applications using select
-            $internship = $application['internship'];
-            $student = $application['student'];
-
-            // By select_single from application where internship_id = internship_id and student_id = student_id using db->select_single
-            $viewed = $this->db->select_single('applications', 'viewed', array('internship' => $internship, 'student' => $student));
-            // If applied return to page with error message
-            if ($viewed == 1) {
-                $this->modal->notify->set('error');
-                $message = 'This application has already been viewed';
-                $this->edit('edit', 'id', $application_id, $message);
-            } else {
-
-                //Do validation 
-
-                // check if $this->update($postData, array('id' => $user_id)) is success 
                 if ($this->update($postData, $where)) {
                     //Notification
                     $this->modal->notify->set('success');
-                    $message = 'Application Was Successfully Updated';
+                    $message = 'Application hase been Approved';
 
                     //Redirect to Profile Edit Page
-                    $this->edit('edit', 'id', $application_id, $message);
+                    $this->edit('edit', 'id', $application, $message);
                 } else {
                     //Notification
                     $this->modal->notify->set('error');
-                    $message = 'System could not update your application';
+                    $message = 'System could not approved the Application';
 
                     //Redirect to Profile Edit Page
-                    $this->edit('edit', 'id', $application_id, $message);
-                }
-            }
-        } elseif ($type == 'delete') {
-            // Get Internship ID from Get request id using $this->modal->load->input('id', 'GET');
-            $application = $this->modal->load->input('id', 'GET');
-            //Variable user_id is set to the current session id
-            $student = $this->auth->auth_get_session('id');
-            $application_id = $this->db->select_single('applications', 'id', array('id' => $application, 'student' => $student));
-            $viewed = $this->db->select_single('applications', 'viewed', array('id' => $application_id));
-
-            // Array Where id = internship id
-            $where = array('id' => $application_id);
-
-            // Input Validation Success
-            if ($viewed == 0) {
-
-                if ($this->delete($where)) {
-                    //Notification
-                    $this->modal->notify->set('success');
-                    $message = 'Application Deleted Successfully';
-
-                    //Redirect to Profile Edit Page
-                    $this->index($message);
-                } else {
-                    //Notification
-                    $this->modal->notify->set('error');
-                    $message = 'System could not delete the Internship';
-
-                    //Redirect to Profile Edit Page
-                    $this->edit('edit', 'id', $application_id, $message);
+                    $this->edit('edit', 'id', $application, $message);
                 }
             } else {
 
                 $this->modal->notify->set('error');
-                $message = 'Could not update, the application might have been viewed or not under your account'; //Notification Message				
+                $message = 'Please check the fields, and try again'; //Notification Message				
 
                 // Account Not Active
-                $this->index($message);
+                $this->edit('edit', 'id', $application, $message);
             }
-        } elseif ($type == 'view') {
+        } elseif ($type == 'reject') {
+            // Get Form Data
+            $formData = $this->modal->load->input();
+            $emptyValues = $this->modal->load->emptyArrayKey($formData);
 
-            // Get Internship ID from Get request id using $this->modal->load->input('id', 'GET');
-            $application = $this->modal->load->input('inputID', 'GET');
-            //Variable user_id is set to the current session id
-            $student = $this->auth->auth_get_session('id');
-            $application_id = $this->db->select_single('applications', 'id', array('id' => $application, 'student' => $student));
+            // Unset values using load->unset
+            $postData = $this->modal->load->unset($formData, $emptyValues);
+
+            // Get user ID from session using auth->auth_get_session
+            $application = $postData['application'];
+
+            // Array Where id = internship id
+            $where = array('id' => $application);
+            // $postData flg = 0
+            $postData['viewed'] = 1;
+            $postData['status'] = 2;
+
+            // Unset
+            $postData = $this->modal->load->unset($postData, 'application');
 
             // Input Validation Success
-            if (True && !is_null($application_id)) {
+            if (True) {
 
-                $internship = $this->db->select_single('applications', 'internship', array('id' => $application_id));
-
-                //Prepaire Data
-                $page = $this->plural->pluralize($this->Folder) . $this->SubFolder . "/view";
-                $data = $this->load($page);
-
-                // Get Details getStudentDetails
-                $found = $this->getStudentDetails($internship, $student);
-                $data['studentInfo'] = (!is_null($found)) ? $found['student'] : null;
-                $data['internshipInfo'] = (!is_null($found)) ? $found['internship'] : null;
-                $data['curriculumInfo'] = (!is_null($found)) ? $found['curriculum'] : null;
-
-                // Array Where id = internship id
-                $where = array('id' => $application_id);
-                // Select description from applications where [id => $inputID] using select_single add value to $data['description']
-                $data['description'] = $this->db->select_single($this->Table, 'description', $where);
-                $data['response'] = $this->db->select_single($this->Table, 'response', $where);
-
-                // Status
-                $status = $this->db->select_single('applications', 'status', array('id' => $application_id));
-                if ($status == 1) {
+                if ($this->update($postData, $where)) {
                     //Notification
                     $this->modal->notify->set('success');
-                    $message = 'Your Application has been accepeted';
+                    $message = 'Application hase been Approved';
+
+                    //Redirect to Profile Edit Page
+                    $this->edit('edit', 'id', $application, $message);
                 } else {
                     //Notification
                     $this->modal->notify->set('error');
-                    $message = 'Your Application was rejected';
+                    $message = 'System could not approved the Application';
+
+                    //Redirect to Profile Edit Page
+                    $this->edit('edit', 'id', $application, $message);
                 }
-
-                // Notification
-                $notify = $this->modal->notify->notify();
-                $data['notify'] = $this->modal->notify->$notify($message);
-
-                //Open Page
-                $this->pages($data);
             } else {
 
                 $this->modal->notify->set('error');
-                $message = 'Could not update, the application might have been viewed or not under your account'; //Notification Message
+                $message = 'Please check the fields, and try again'; //Notification Message				
 
-                // Open index
-                $this->index($message);
+                // Account Not Active
+                $this->edit('edit', 'id', $application, $message);
             }
         }
     }
@@ -575,4 +548,4 @@ class PortalStudentsApplication extends Controller
     }
 }
 
-/* End of file PortalStudentsApplication.php */
+/* End of file PortalCompaniesApplication.php */

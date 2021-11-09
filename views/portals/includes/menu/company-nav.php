@@ -13,7 +13,7 @@
         </a>
     </li>
     <li>
-        <a href="#">
+        <a href="<?= $base_url; ?>/portal/company/application">
             <i class="fas fa-laptop-house"></i>
             <span>Applications</span>
         </a>

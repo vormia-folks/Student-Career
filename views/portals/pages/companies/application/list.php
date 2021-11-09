@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h3>My Applications</h3>
+        <h3>All Applications</h3>
     </div>
     <div class="card-body">
 
@@ -33,20 +33,11 @@
                                     <td><?= $application['status']; ?></td>
                                     <td>
                                         <!-- check if $application['status'] == 1 if true show edit button else disable edit button -->
-                                        <?php if ($application['show'] == 0) { ?>
-                                            <?php $edit_url = "$base_url/portal/student/application/edit?inputID=" . $application['id']; ?>
-                                            <a href="<?= $edit_url; ?>" class="btn btn-primary">
-                                                <i class="fas fa-edit"></i>
-                                                Edit
-                                            </a>
-                                        <?php } else { ?>
-                                            <?php $view_url = "$base_url/portal/student/application/view?inputID=" . $application['id']; ?>
-                                            <a href="<?= $view_url; ?>" class="btn btn-info">
-                                                <i class="fas fa-external-link-alt"></i>
-                                                <!-- icon fa link -->
-                                                View
-                                            </a>
-                                        <?php } ?>
+                                        <?php $edit_url = "$base_url/portal/company/application/view?inputID=" . $application['id']; ?>
+                                        <a href="<?= $edit_url; ?>" class="btn btn-primary">
+                                            <i class="fas fa-edit"></i>
+                                            View
+                                        </a>
                                     </td>
                                 </tr>
                             <?php } ?>

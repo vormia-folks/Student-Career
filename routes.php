@@ -57,6 +57,7 @@ $route["portal/student/application"] = "PortalStudentsApplication/index"; //Inde
 $route["portal/student/application/edit"] = "PortalStudentsApplication/edit/edit"; //Edit
 $route["portal/student/application/update"] = "PortalStudentsApplication/valid/update"; //Update
 $route["portal/student/application/delete"] = "PortalStudentsApplication/valid/delete"; //Delete
+$route["portal/student/application/view"] = "PortalStudentsApplication/valid/view"; //View
 
 
 /**
@@ -77,3 +78,9 @@ $route["portal/company/intership/save"] = "PortalCompaniesIntership/valid/save";
 $route["portal/company/intership/edit/(:num)"] = "PortalCompaniesIntership/edit/edit/id/#1"; //Edit
 $route["portal/company/intership/update"] = "PortalCompaniesIntership/valid/update"; //Update
 $route["portal/company/intership/delete"] = "PortalCompaniesIntership/valid/delete"; //Delete
+
+// Application
+$route["portal/company/application"] = "PortalCompaniesApplication/index"; //Index
+$route["portal/company/application/view"] = "PortalCompaniesApplication/edit/edit"; //Edit
+$route["portal/company/application/approve"] = "PortalCompaniesApplication/valid/approve"; //Update
+$route["portal/company/application/reject"] = "PortalCompaniesApplication/valid/reject"; //Update
