@@ -234,6 +234,8 @@ class Validation extends Model
     {
         if (strlen($value) <= $param) {
             return true;
+        } elseif (strlen($value) == 0) {
+            return true;
         }
         return false;
     }
@@ -242,6 +244,8 @@ class Validation extends Model
     public function min_length($value, $param = null)
     {
         if (strlen($value) >= $param) {
+            return true;
+        } elseif (strlen($value) == 0) {
             return true;
         }
         return false;
@@ -262,6 +266,32 @@ class Validation extends Model
             return false;
         } else {
             return true;
+        }
+    }
+
+    // Function to check if is unique
+    public function is_unique_update($value, $param = null)
+    {
+        //Auth Model
+        require_once 'libraries/Auth.php';
+        $this->auth = new Auth;
+
+        $table = $this->db->get_table_name($param);
+        $field = $this->db->get_column_name($table, $param);
+        // Get column name by explode $param and take second element
+        $column = explode('.', $param);
+        // check if index 1 exist if exist assign to column else assign index 0 use ternarry
+        $column = isset($column[1]) ? $column[1] : $column[0];
+
+        $user_id = $this->auth->auth_get_session('id');
+        $found = $this->db->select_single($table, 'id', array("$column" => "$value"));
+
+        if (is_null($found)) {
+            return true;
+        } elseif ($found == $user_id) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -362,6 +392,9 @@ class Validation extends Model
                 break;
             case 'is_valid_email':
                 $message = 'The ' . $field . ' you entered is not among partnered organizations.';
+                break;
+            case 'is_unique_update':
+                $message = 'The ' . $field . ' you entered is already taken.';
                 break;
             case 'url':
                 $message = 'The ' . $field . ' field must contain a valid URL.';
