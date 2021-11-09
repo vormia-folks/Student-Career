@@ -15,7 +15,6 @@
                         <div class="mb-3">
                             <label class="form-label">Organization Name </label>
                             <input type="text" class="form-control" disabled value="<?= $organization_details->organization_name; ?>">
-                            <span class="error"></span>
                         </div>
                     </div>
 
@@ -23,7 +22,6 @@
                         <div class="mb-3">
                             <label class="form-label">Organization Website </label>
                             <input type="text" class="form-control" disabled value="<?= $organization_details->organization_website; ?>">
-                            <span class="error"></span>
                         </div>
                     </div>
                 </div>
@@ -35,7 +33,7 @@
                         <div class="mb-3">
                             <label class="form-label">Student Email <i class="fas fa-asterisk"></i></label>
                             <input type="email" class="form-control" name="email" required value="<?= $user_details->company_email; ?>">
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->email; ?></span>
                         </div>
                     </div>
 
@@ -44,15 +42,15 @@
                             <label class="form-label"> Phone number <small>Eg. (07xxxxxxx)</small> </label>
                             <?php $phone_number = ($user_details->company_mobile) ? '0' . $user_details->company_mobile : ''; ?>
                             <input type="number" class="form-control" name="mobile" value="<?= $phone_number; ?>">
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->mobile; ?></span>
                         </div>
                     </div>
 
                     <div class="col-md-4 col-sm-6">
                         <div class="mb-3">
-                            <label class="form-label">New Password <i class="fas fa-asterisk"></i></label>
+                            <label class="form-label">New Password </label>
                             <input type="password" class="form-control" name="password">
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->password; ?></span>
                         </div>
                     </div>
                 </div>

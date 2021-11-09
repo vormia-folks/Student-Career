@@ -35,6 +35,7 @@ class PortalCompaniesProfile extends Controller
 
         // Libraries Instance
         $this->plural = new Plural;
+        $this->valid = new Validation;
 
         //Do your magic here
     }
@@ -254,6 +255,15 @@ class PortalCompaniesProfile extends Controller
             $formData = $this->modal->load->input();
             $emptyValues = $this->modal->load->emptyArrayKey($formData);
 
+            $rules = array(
+                'email' => 'required|email|is_valid_email:organizations.toplevel|is_unique_update:company.email|max:30',
+                'mobile' => 'valid_mobile|min:10',
+                'password' => 'min_length:6',
+            );
+            // Validation using $this->valid
+            $valid = $this->valid->validate($formData, $rules);
+            // Check if validation is true validation_check
+
             // Unset values using load->unset
             $postData = $this->modal->load->unset($formData, $emptyValues);
 
@@ -261,7 +271,7 @@ class PortalCompaniesProfile extends Controller
             $user_id = $this->auth->auth_get_session('id');
 
             // Input Validation Success
-            if (!is_null($user_id)) {
+            if ($this->valid->validation_check($valid) === false) {
                 // check if $this->update($postData, array('id' => $user_id)) is success 
                 if ($this->update($postData, array('id' => $user_id))) {
                     //Notification
