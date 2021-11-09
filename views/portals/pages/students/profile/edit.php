@@ -14,7 +14,7 @@
                         <div class="mb-3">
                             <label class="form-label">First Name <i class="fas fa-asterisk"></i></label>
                             <input type="text" class="form-control" name="first_name" required value="<?= $user_details->student_first_name; ?>">
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->first_name; ?></span>
                         </div>
                     </div>
 
@@ -22,7 +22,7 @@
                         <div class="mb-3">
                             <label class="form-label">Last Name <i class="fas fa-asterisk"></i></label>
                             <input type="text" class="form-control" name="last_name" required value="<?= $user_details->student_last_name; ?>">
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->last_name; ?></span>
                         </div>
                     </div>
 
@@ -30,7 +30,7 @@
                         <div class="mb-3">
                             <label class="form-label">Student Email <i class="fas fa-asterisk"></i></label>
                             <input type="email" class="form-control" name="email" required value="<?= $user_details->student_email; ?>">
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->email; ?></span>
                         </div>
                     </div>
 
@@ -42,7 +42,7 @@
                             <label class="form-label"> Phone number <small>Eg. (07xxxxxxx)</small> </label>
                             <?php $phone_number = ($user_details->student_phone_number) ? '0' . $user_details->student_phone_number : ''; ?>
                             <input type="number" class="form-control" name="phone_number" value="<?= $phone_number; ?>">
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->phone_number; ?></span>
                         </div>
                     </div>
 
@@ -50,7 +50,7 @@
                         <div class="mb-3">
                             <label class="form-label">Personal Email </label>
                             <input type="email" class="form-control" name="personal_email" value="<?= $user_details->student_personal_email; ?>">
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->personal_email; ?></span>
                         </div>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                         <div class="mb-3">
                             <label class="form-label">New Password <i class="fas fa-asterisk"></i></label>
                             <input type="password" class="form-control" name="password">
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->password; ?></span>
                         </div>
                     </div>
 
@@ -72,7 +72,7 @@
                         <div class="mb-3">
                             <label class="form-label"> Confirm New Password <i class="fas fa-asterisk"></i></label>
                             <input type="password" class="form-control" name="confirm_password">
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->confirm_password; ?></span>
                         </div>
                     </div>
                 </div>

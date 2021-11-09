@@ -35,6 +35,7 @@ class PortalStudentsProfile extends Controller
 
         // Libraries Instance
         $this->plural = new Plural;
+        $this->valid = new Validation;
 
         //Do your magic here
     }
@@ -237,6 +238,19 @@ class PortalStudentsProfile extends Controller
             $formData = $this->modal->load->input();
             $emptyValues = $this->modal->load->emptyArrayKey($formData);
 
+            // Validation Rules
+            $rules = array(
+                'first_name' => 'required|min:2|max:20',
+                'last_name' => 'required|min:2|max:20',
+                'email' => 'required|email|is_valid_email:universities.toplevel|is_unique_update:students.email|max:30',
+                'phone_number' => 'valid_mobile|min_length:10',
+                'personal_email' => 'email|max:30',
+                'password' => 'min_length:6',
+                'confirm_password' => 'min_length:6|matches:password',
+            );
+            // Validation using $this->valid
+            $valid = $this->valid->validate($formData, $rules);
+
             // Unset values using load->unset
             $postData = $this->modal->load->unset($formData, $emptyValues);
 
@@ -244,7 +258,8 @@ class PortalStudentsProfile extends Controller
             $user_id = $this->auth->auth_get_session('id');
 
             // Input Validation Success
-            if (!is_null($user_id)) {
+            if ($this->valid->validation_check($valid) === false) {
+
                 // check if $this->update($postData, array('id' => $user_id)) is success 
                 if ($this->update($postData, array('id' => $user_id))) {
                     //Notification

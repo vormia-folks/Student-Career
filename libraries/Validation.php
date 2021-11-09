@@ -112,10 +112,16 @@ class Validation extends Model
 
     public function email($value, $param = null)
     {
-        if (filter_var($value, FILTER_VALIDATE_EMAIL)) {
+        // Check id $value is greater than 0
+        if (!is_null($value) && strlen($value) > 0) {
+            if (filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
             return true;
         }
-        return false;
     }
 
     public function url($value, $param = null)
@@ -341,10 +347,16 @@ class Validation extends Model
     // Valid mobile number
     public function valid_mobile($value, $param = null)
     {
-        if (preg_match('/^[0-9]{10}$/', $value)) {
+        // check $value length
+        if (!is_null($value) && strlen($value) > 0) {
+            if (preg_match('/^[0-9]{10}$/', $value)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
             return true;
         }
-        return false;
     }
 
     //matches
