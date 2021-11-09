@@ -35,6 +35,7 @@ class PortalStudentsApplication extends Controller
 
         // Libraries Instance
         $this->plural = new Plural;
+        $this->valid = new Validation;
 
         //Do your magic here
     }
@@ -317,24 +318,33 @@ class PortalStudentsApplication extends Controller
                 $this->edit('edit', 'id', $application_id, $message);
             } else {
 
-                //Do validation 
+                // Validation Rules
+                $rules = array(
+                    'application' => 'required|integer',
+                    'description' => 'max:1000',
+                );
+                // Validation using $this->valid
+                $valid = $this->valid->validate($formData, $rules);
+                if ($this->valid->validation_check($valid) === false) {
 
-                // check if $this->update($postData, array('id' => $user_id)) is success 
-                if ($this->update($postData, $where)) {
-                    //Notification
-                    $this->modal->notify->set('success');
-                    $message = 'Application Was Successfully Updated';
-
-                    //Redirect to Profile Edit Page
-                    $this->edit('edit', 'id', $application_id, $message);
+                    // check if $this->update($postData, array('id' => $user_id)) is success 
+                    if ($this->update($postData, $where)) {
+                        //Notification
+                        $this->modal->notify->set('success');
+                        $message = 'Application Was Successfully Updated';
+                    } else {
+                        //Notification
+                        $this->modal->notify->set('error');
+                        $message = 'System could not update your application';
+                    }
                 } else {
-                    //Notification
-                    $this->modal->notify->set('error');
-                    $message = 'System could not update your application';
-
-                    //Redirect to Profile Edit Page
-                    $this->edit('edit', 'id', $application_id, $message);
+                    // Notification
+                    $message = 'Please fill all the required fields';
+                    $data['notify'] = $this->modal->notify->error($message);
                 }
+
+                //Redirect to Profile Edit Page
+                $this->edit('edit', 'id', $application_id, $message);
             }
         } elseif ($type == 'delete') {
             // Get Internship ID from Get request id using $this->modal->load->input('id', 'GET');

@@ -153,7 +153,8 @@
                     <div class="col-md-12 col-sm-12">
                         <div class="mb-3">
                             <label class="form-label">Application Summary</label>
-                            <textarea class="form-control" rows="3" name="description"></textarea>
+                            <textarea class="form-control" rows="3" name="description"><?= $form_value->description; ?></textarea>
+                            <span class="error"><?= $form_error->description; ?></span>
                         </div>
                     </div>
                 </div>

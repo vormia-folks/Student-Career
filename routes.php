@@ -61,7 +61,6 @@ $route["portal/student/application/update"] = "PortalStudentsApplication/valid/u
 $route["portal/student/application/delete"] = "PortalStudentsApplication/valid/delete"; //Delete
 $route["portal/student/application/view"] = "PortalStudentsApplication/valid/view"; //View
 
-
 /**
  * PORTAL COMPANIES
  */

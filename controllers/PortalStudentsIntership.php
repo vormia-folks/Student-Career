@@ -35,6 +35,7 @@ class PortalStudentsIntership extends Controller
 
         // Libraries Instance
         $this->plural = new Plural;
+        $this->valid = new Validation;
 
         //Do your magic here
     }
@@ -280,6 +281,7 @@ class PortalStudentsIntership extends Controller
             // Get student ID from session using auth and University ID by select_single from students where id = session id using db->select_single
             $student_id = $this->auth->auth_get_session('id');
 
+
             // By select_single from application where internship_id = internship_id and student_id = student_id using db->select_single
             $applied = $this->db->select_single('application', 'internship', array('internship' => $internship_id, 'student' => $student_id));
             // If applied return to page with error message
@@ -313,6 +315,15 @@ class PortalStudentsIntership extends Controller
             // Unset values using load->unset
             $postData = $this->modal->load->unset($formData, $emptyValues);
 
+            // Validation Rules
+            $rules = array(
+                'internship' => 'required|integer',
+                'student' => 'required|integer',
+                'description' => 'max:1000',
+            );
+            // Validation using $this->valid
+            $valid = $this->valid->validate($formData, $rules);
+
             // Values
             $student_id = $postData['student'];
             $internship_id = $postData['internship'];
@@ -337,9 +348,7 @@ class PortalStudentsIntership extends Controller
             } else {
 
                 // Validation
-                $validation = True; //$this->modal->validation->validate($postData, $this->validation);
-                // If validation is true
-                if ($validation) {
+                if ($this->valid->validation_check($valid) === false) {
                     // If insert is true
                     if ($this->insert($postData, 'application')) {
                         // Notification
