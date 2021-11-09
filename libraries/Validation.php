@@ -265,6 +265,23 @@ class Validation extends Model
         }
     }
 
+    // Function to check if value exist
+    public function is_exist($value, $param = null)
+    {
+
+        $table = $this->db->get_table_name($param);
+        $field = $this->db->get_column_name($table, $param);
+
+        $conn = $this->db->db_connect();
+        $sql = "SELECT * FROM $table WHERE $field = '$value'";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     // Function to check if is unique
     public function is_valid_email($value, $param = null)
     {
@@ -384,6 +401,9 @@ class Validation extends Model
                 break;
             case 'is_unique':
                 $message = 'The ' . $field . ' field must contain a unique value.';
+                break;
+            case 'is_exist':
+                $message = 'The ' . $field . ' field doest not exist in our database.';
                 break;
             case 'valid_mobile':
                 $message = 'The ' . $field . ' field must contain a valid mobile number.';

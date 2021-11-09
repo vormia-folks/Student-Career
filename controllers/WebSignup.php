@@ -232,7 +232,7 @@ class WebSignup extends Controller
             // );
 
             $rules = array(
-                'email' => 'required|email|is_unique:company.email',
+                'email' => 'required|email|is_unique:company.email|is_valid_email:organizations.toplevel|max:30',
                 'mobile' => 'valid_mobile|min:10',
                 'password' => 'required|min:6',
                 'confirm_password' => 'required|min:6|matches:password',

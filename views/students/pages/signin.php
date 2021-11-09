@@ -29,14 +29,15 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Enter Student Email <i class="fas fa-asterisk"></i></label>
-                                                    <input type="email" class="form-control" name="email" required>
-
+                                                    <input type="email" class="form-control" name="email" value="<?= $form_value->email; ?>">
+                                                    <span class="error"><?= $form_error->email; ?></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Enter Password <i class="fas fa-asterisk"></i></label>
-                                                    <input type="password" class="form-control" name="password" required>
+                                                    <input type="password" class="form-control" name="password">
+                                                    <span class="error"><?= $form_error->password; ?></span>
                                                 </div>
                                             </div>
                                         </div>

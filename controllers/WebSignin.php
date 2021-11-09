@@ -31,6 +31,7 @@ class WebSignin extends Controller
 
         // Libraries Instance
         $this->plural = new Plural;
+        $this->valid = new Validation;
 
         //Do your magic here
     }
@@ -153,77 +154,92 @@ class WebSignin extends Controller
             $formData = $this->modal->load->input();
 
             //Do validation Here
+            $rules = array(
+                'email' => 'required|email|max:30',
+                'password' => 'required|min:6',
+            );
+            // Validation using $this->valid
+            $valid = $this->valid->validate($formData, $rules);
 
-            // Account Email
-            $email = $formData['email'];
-            // Password Encrypt
-            $password = $formData['password'];
-            $encrypt_password = sha1($password);
-
-            // Check Account Type
-            $found = $this->db->select('login', 'account as user,type as table_name, email as email, flg as active', array('email' => $email), 1);
-            $found = (is_null($found)) ? null : $found;
-
-            // Check if account exist
-            if (is_null($found)) {
+            // Check if validation is true validation_check
+            if ($this->valid->validation_check($valid) !== false) {
                 //Notification
                 $this->modal->notify->set('error');
 
                 // Account Not Found
-                $this->open('signin', 'Account Not Found');
+                $this->open('signin');
             } else {
-                // Account Found
-                $foundData = $found[0];
-                $table_name = $foundData['table_name'];
-                $email = $foundData['email'];
-                //active
-                $active = $foundData['active'];
-                //Account
-                $user = $foundData['user'];
+                // Account Email
+                $email = $formData['email'];
+                // Password Encrypt
+                $password = $formData['password'];
+                $encrypt_password = sha1($password);
 
-                // Check if account is active
-                if ($active == 1) {
+                // Check Account Type
+                $found = $this->db->select('login', 'account as user,type as table_name, email as email, flg as active', array('email' => $email), 1);
+                $found = (is_null($found)) ? null : $found;
 
-                    //Select Single Data
-                    $password = $this->db->select_single($table_name, 'password', array('email' => $email), 1);
-                    $password = (is_null($password)) ? null : $password;
+                // Check if account exist
+                if (is_null($found)) {
+                    //Notification
+                    $this->modal->notify->set('error');
 
-                    // Check if password is correct
-                    if ($password === $encrypt_password) {
-                        $user_name = $this->db->select_single($table_name, 'first_name', array('email' => $email), 1);
-                        // Password Correct
-                        $session_set = array(
-                            'id' => $user,
-                            'level' => $table_name,
-                            'name' => $user_name . ' Minga',
-                            'logged' => true
-                        );
+                    // Account Not Found
+                    $this->open('signin', 'Account Not Found');
+                } else {
+                    // Account Found
+                    $foundData = $found[0];
+                    $table_name = $foundData['table_name'];
+                    $email = $foundData['email'];
+                    //active
+                    $active = $foundData['active'];
+                    //Account
+                    $user = $foundData['user'];
 
-                        //Auth Model
-                        require_once 'libraries/Auth.php';
-                        $this->auth = new Auth;
+                    // Check if account is active
+                    if ($active == 1) {
 
-                        // call auth session
-                        $this->auth->auth_set_session($session_set);
+                        //Select Single Data
+                        $password = $this->db->select_single($table_name, 'password', array('email' => $email), 1);
+                        $password = (is_null($password)) ? null : $password;
 
-                        // Get name from session
-                        $name = $this->auth->auth_get_session('name');
+                        // Check if password is correct
+                        if ($password === $encrypt_password) {
+                            $user_name = $this->db->select_single($table_name, 'first_name', array('email' => $email), 1);
+                            // Password Correct
+                            $session_set = array(
+                                'id' => $user,
+                                'level' => $table_name,
+                                'name' => $user_name . ' Minga',
+                                'logged' => true
+                            );
 
-                        // Redirect
-                        $this->redirect("portal/$table_name/profile");
+                            //Auth Model
+                            require_once 'libraries/Auth.php';
+                            $this->auth = new Auth;
+
+                            // call auth session
+                            $this->auth->auth_set_session($session_set);
+
+                            // Get name from session
+                            $name = $this->auth->auth_get_session('name');
+
+                            // Redirect
+                            $this->redirect("portal/$table_name/profile");
+                        } else {
+                            //Notification
+                            $this->modal->notify->set('error');
+
+                            // Password Incorrect
+                            $this->open('signin', 'Incorrect Password');
+                        }
                     } else {
                         //Notification
                         $this->modal->notify->set('error');
 
-                        // Password Incorrect
-                        $this->open('signin', 'Incorrect Password');
+                        // Account Not Active
+                        $this->open('signin', 'Account Not Active');
                     }
-                } else {
-                    //Notification
-                    $this->modal->notify->set('error');
-
-                    // Account Not Active
-                    $this->open('signin', 'Account Not Active');
                 }
             }
         } elseif ($type == 'logout') {

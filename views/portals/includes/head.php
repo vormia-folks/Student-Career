@@ -43,8 +43,8 @@
                     <h2 class="u-name">
                         Student <strong>Career</strong>
                     </h2>
-                    <a href="">
-                        <i class="fa fa-user" aria-hidden="true"></i>
+                    <a href="<?= $base_url; ?>/logout">
+                        <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
                     </a>
                 </section>
             </div>
