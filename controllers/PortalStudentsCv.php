@@ -37,6 +37,7 @@ class PortalStudentsCv extends Controller
 
         // Libraries Instance
         $this->plural = new Plural;
+        $this->valid = new Validation;
 
         //Do your magic here
     }
@@ -251,11 +252,22 @@ class PortalStudentsCv extends Controller
             $formData = $this->modal->load->input();
             $emptyValues = $this->modal->load->emptyArrayKey($formData);
 
+            // Validation Rules
+            $rules = array(
+                'id' => 'required|integer',
+                'attachment' => 'required|integer',
+                'availability' => 'required|integer',
+                'major' => 'required|integer',
+                'about' => 'required|max:1000',
+            );
+            // Validation using $this->valid
+            $valid = $this->valid->validate($formData, $rules);
+
             // Get user ID from session using auth->auth_get_session
             $user_id = $this->auth->auth_get_session('id');
 
             // Input Validation Success
-            if (!is_null($user_id)) {
+            if ($this->valid->validation_check($valid) === false) {
 
                 //Add user id to postData
                 $formData['student'] = $user_id;

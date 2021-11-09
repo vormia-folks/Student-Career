@@ -16,7 +16,6 @@
                         <div class="mb-3">
                             <label class="form-label">Name </label>
                             <input type="text" class="form-control" disabled value="<?= $studentInfo['student_name'] ?>">
-                            <span class="error"></span>
                         </div>
                     </div>
 
@@ -24,7 +23,6 @@
                         <div class="mb-3">
                             <label class="form-label">Email </label>
                             <input type="text" class="form-control" disabled value="<?= $studentInfo['student_email'] ?>">
-                            <span class="error"></span>
                         </div>
                     </div>
 
@@ -32,7 +30,6 @@
                         <div class="mb-3">
                             <label class="form-label">University </label>
                             <input type="email" class="form-control" disabled value="<?= $studentInfo['university_name'] ?>">
-                            <span class="error"></span>
                         </div>
                     </div>
 
@@ -56,7 +53,7 @@
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </select>
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->attachment; ?></span>
                         </div>
                     </div>
 
@@ -73,7 +70,7 @@
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </select>
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->availability; ?></span>
                         </div>
                     </div>
 
@@ -89,7 +86,7 @@
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </select>
-                            <span class="error"></span>
+                            <span class="error"><?= $form_error->major; ?></span>
                         </div>
                     </div>
                 </div>
@@ -99,6 +96,7 @@
                         <div class="mb-3">
                             <label class="form-label">About Your Self <i class="fas fa-asterisk"></i></label>
                             <textarea class="form-control" rows="5" name="about"><?= $curriculumInfo['about'] ?></textarea>
+                            <span class="error"><?= $form_error->about; ?></span>
                         </div>
                     </div>
                 </div>
