@@ -14,6 +14,7 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
+                            <th scope="col">Company</th>
                             <th scope="col">Type</th>
                             <th scope="col">Major</th>
                             <th scope="col">Availability</th>
@@ -28,6 +29,7 @@
                             <?php foreach ($interships as $intership) { ?>
                                 <tr>
                                     <th scope="row"><?= $intership['id']; ?></th>
+                                    <td><?= $intership['company']; ?></td>
                                     <td><?= $intership['type']; ?></td>
                                     <td><?= $intership['major']; ?></td>
                                     <td><?= $intership['availability']; ?></td>

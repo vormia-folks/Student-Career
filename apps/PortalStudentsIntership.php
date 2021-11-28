@@ -132,7 +132,7 @@ class PortalStudentsIntership extends Controller
         $university = $this->db->select_single('students', 'university', ['id' => $user_id]);
 
         // Prepaire Query
-        $select = 'id as id,attachment as type,major as major,availability as availability,university as university,flg as status';
+        $select = 'id as id,organization as company,attachment as type,major as major,availability as availability,university as university,flg as status';
         $select_column = $this->db->get_column_name($this->Table, $select);
         $columns = (is_array($select_column)) ? implode(',', array_values($select_column)) : $select_column;
 
@@ -161,6 +161,13 @@ class PortalStudentsIntership extends Controller
                 } else {
                     // Else select university name from table university where id = intership['university'] using db->select_single
                     $interships[$key]['university'] = $this->db->select_single('university', 'name', array('id' => $intership['university']));
+                }
+
+                // If company is null set ANY
+                if (is_null($interships[$key]['company'])) {
+                    $interships[$key]['company'] = 'ANY';
+                } else {
+                    $interships[$key]['company'] = $this->db->select_single('organizations', 'name', array('id' => $intership['company']));
                 }
 
                 // If status is 0 set disabled as <button></button> danger else set enabled as button success

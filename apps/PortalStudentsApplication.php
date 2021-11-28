@@ -129,7 +129,7 @@ class PortalStudentsApplication extends Controller
         $user_id = $this->auth->auth_get_session('id');
 
         // Prepaire Query
-        $select = 'application.id as id,intership.organization as company,intership.university as university,application.viewed as viewed,application.flg as status';
+        $select = 'application.id as id,intership.organization as company,application.status as approved,application.viewed as viewed,application.flg as status';
         $select_column = $this->db->get_column_name($this->Table, $select);
         $columns = (is_array($select_column)) ? implode(',', array_values($select_column)) : $select_column;
 
@@ -154,7 +154,7 @@ class PortalStudentsApplication extends Controller
         if (!is_null($applications)) {
             foreach ($applications as $key => $value) {
                 $applications[$key]['company'] = $this->db->select_single('organizations', 'name', ['id' => $value['company']]);
-                $applications[$key]['university'] = $this->db->select_single('universities', 'name', ['id' => $value['university']]);
+                // $applications[$key]['university'] = $this->db->select_single('universities', 'name', ['id' => $value['university']]);
                 $applications[$key]['viewed'] = ($value['viewed'] == 1) ? '<span class="badge bg-success">Viewed</span>' : '<span class="badge bg-danger">Not Viewed</span>';
                 $applications[$key]['show'] = $value['viewed'];
 
@@ -163,6 +163,15 @@ class PortalStudentsApplication extends Controller
                     $applications[$key]['status'] = '<button class="btn btn-danger">Disabled</button>';
                 } else {
                     $applications[$key]['status'] = '<button class="btn btn-success">Enabled</button>';
+                }
+
+                // Approved
+                if ($value['approved'] == 1) {
+                    $applications[$key]['approved'] = '<span class="badge bg-info">Approved</span>';
+                } elseif ($value['approved'] == 2) {
+                    $applications[$key]['approved'] = '<span class="badge bg-danger">Rejected</span>';
+                } else {
+                    $applications[$key]['approved'] = '<span class="badge bg-primary">Waiting</span>';
                 }
             }
         }

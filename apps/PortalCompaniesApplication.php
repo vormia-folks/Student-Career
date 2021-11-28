@@ -136,7 +136,7 @@ class PortalCompaniesApplication extends Controller
         $organization = $this->db->select_single('companies', 'organization', array('id' => $user_id));
 
         // Prepaire Query
-        $select = 'application.id as id,intership.organization as company,intership.university as university,application.viewed as viewed,application.flg as status';
+        $select = 'application.id as id,application.student as student_id,application.student as university,application.status as approved,application.viewed as viewed,application.flg as status';
         $select_column = $this->db->get_column_name($this->Table, $select);
         $columns = (is_array($select_column)) ? implode(',', array_values($select_column)) : $select_column;
 
@@ -160,8 +160,11 @@ class PortalCompaniesApplication extends Controller
         // check if viewed is 1 then btn success = viewed else btn danger = not viewed
         if (!is_null($applications)) {
             foreach ($applications as $key => $value) {
-                $applications[$key]['company'] = $this->db->select_single('organizations', 'name', ['id' => $value['company']]);
-                $applications[$key]['university'] = $this->db->select_single('universities', 'name', ['id' => $value['university']]);
+                $applications[$key]['student_email'] = $this->db->select_single('students', 'email', ['id' => $value['student_id']]);
+
+                //Universitu
+                $university = $this->db->select_single('students', 'university', ['id' => $value['university']]);
+                $applications[$key]['university'] = $this->db->select_single('universities', 'name', ['id' => $university]);
                 $applications[$key]['viewed'] = ($value['viewed'] == 1) ? '<span class="badge bg-success">Viewed</span>' : '<span class="badge bg-danger">Not Viewed</span>';
 
                 // If status is 0 set disabled as <button></button> danger else set enabled as button success
@@ -169,6 +172,15 @@ class PortalCompaniesApplication extends Controller
                     $applications[$key]['status'] = '<button class="btn btn-danger">Disabled</button>';
                 } else {
                     $applications[$key]['status'] = '<button class="btn btn-success">Enabled</button>';
+                }
+
+                // Approved
+                if ($value['approved'] == 1) {
+                    $applications[$key]['approved'] = '<span class="badge bg-info">Approved</span>';
+                } elseif ($value['approved'] == 2) {
+                    $applications[$key]['approved'] = '<span class="badge bg-danger">Rejected</span>';
+                } else {
+                    $applications[$key]['approved'] = '<span class="badge bg-primary">Waiting</span>';
                 }
             }
         }

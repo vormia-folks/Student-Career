@@ -15,7 +15,7 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Company</th>
-                            <th scope="col">University</th>
+                            <th scope="col">Approved</th>
                             <th scope="col">Viewed</th>
                             <th scope="col">status</th>
                             <th scope="col">Action</th>
@@ -28,7 +28,7 @@
                                 <tr>
                                     <th scope="row"><?= $application['id']; ?></th>
                                     <td><?= $application['company']; ?></td>
-                                    <td><?= $application['university']; ?></td>
+                                    <td><?= $application['approved']; ?></td>
                                     <td><?= $application['viewed']; ?></td>
                                     <td><?= $application['status']; ?></td>
                                     <td>
