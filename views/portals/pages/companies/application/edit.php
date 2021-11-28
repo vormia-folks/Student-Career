@@ -175,20 +175,39 @@
                 <hr />
 
                 <!-- Submit -->
-                <div class="row">
-                    <div class="col-md-6 col-sm-12">
-                        <?php $reject_url = "$base_url/portal/company/application/reject"; ?>
-                        <button type="submit" onclick="submitForm('<?= $reject_url ?>')" class="btn btn-lg btn-danger w-100">
-                            Reject <i class="fas fa-times"></i>
-                        </button>
+                <!-- If $approved_status == null, show buttons below -->
+                <?php if ($approved_status == null || $approved_status == 2) : ?>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <?php $reject_url = "$base_url/portal/company/application/reject"; ?>
+                            <button type="submit" onclick="submitForm('<?= $reject_url ?>')" class="btn btn-lg btn-danger w-100">
+                                Reject <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <?php $approve_url = "$base_url/portal/company/application/approve"; ?>
+                            <button type="submit" onclick="submitForm('<?= $approve_url ?>')" class="btn btn-lg btn-success w-100">
+                                Approve <i class="fas fa-check"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="col-md-6 col-sm-12">
-                        <?php $approve_url = "$base_url/portal/company/application/approve"; ?>
-                        <button type="submit" onclick="submitForm('<?= $approve_url ?>')" class="btn btn-lg btn-success w-100">
-                            Approve <i class="fas fa-check"></i>
-                        </button>
+                    <!-- Else if $approved_status == 1 (show option to compled) -->
+                <?php elseif ($approved_status == 1) : ?>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <?php $reject_url = "$base_url/portal/company/application/reject"; ?>
+                            <button type="submit" onclick="submitForm('<?= $reject_url ?>')" class="btn btn-lg btn-danger w-100">
+                                Reject <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <?php $completed_url = "$base_url/portal/company/application/completed"; ?>
+                            <button type="submit" onclick="submitForm('<?= $completed_url ?>')" class="btn btn-lg btn-primary w-100">
+                                Completed <i class="fas fa-check"></i>
+                            </button>
+                        </div>
                     </div>
-                </div>
+                <?php endif; ?>
 
             </form>
         </div>

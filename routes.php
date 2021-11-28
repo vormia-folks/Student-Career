@@ -85,3 +85,7 @@ $route["portal/company/application"] = "PortalCompaniesApplication/index"; //Ind
 $route["portal/company/application/view"] = "PortalCompaniesApplication/edit/edit"; //Edit
 $route["portal/company/application/approve"] = "PortalCompaniesApplication/valid/approve"; //Update
 $route["portal/company/application/reject"] = "PortalCompaniesApplication/valid/reject"; //Update
+$route["portal/company/application/completed"] = "PortalCompaniesApplication/valid/completed"; //Update
+
+// Rating
+$route["portal/company/rating"] = "PortalCompaniesRating/index"; //Index

@@ -170,6 +170,8 @@ class PortalStudentsApplication extends Controller
                     $applications[$key]['approved'] = '<span class="badge bg-info">Approved</span>';
                 } elseif ($value['approved'] == 2) {
                     $applications[$key]['approved'] = '<span class="badge bg-danger">Rejected</span>';
+                } elseif ($value['approved'] == 3) {
+                    $applications[$key]['approved'] = '<span class="badge bg-success">Ended</span>';
                 } else {
                     $applications[$key]['approved'] = '<span class="badge bg-primary">Waiting</span>';
                 }

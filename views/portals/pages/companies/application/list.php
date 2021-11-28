@@ -16,6 +16,7 @@
                             <th scope="col">#</th>
                             <th scope="col">Student Email</th>
                             <th scope="col">University</th>
+                            <th scope="col">Approved</th>
                             <th scope="col">Viewed</th>
                             <th scope="col">status</th>
                             <th scope="col">Action</th>
@@ -35,6 +36,7 @@
                                     <td>
                                         <!-- check if $application['status'] == 1 if true show edit button else disable edit button -->
                                         <?php $edit_url = "$base_url/portal/company/application/view?inputID=" . $application['id']; ?>
+                                        <!-- Check if Ended -->
                                         <a href="<?= $edit_url; ?>" class="btn btn-primary">
                                             <i class="fas fa-edit"></i>
                                             View

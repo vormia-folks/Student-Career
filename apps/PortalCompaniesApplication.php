@@ -175,10 +175,13 @@ class PortalCompaniesApplication extends Controller
                 }
 
                 // Approved
+                $applications[$key]['approved_status'] = $value['approved'];
                 if ($value['approved'] == 1) {
                     $applications[$key]['approved'] = '<span class="badge bg-info">Approved</span>';
                 } elseif ($value['approved'] == 2) {
                     $applications[$key]['approved'] = '<span class="badge bg-danger">Rejected</span>';
+                } elseif ($value['approved'] == 3) {
+                    $applications[$key]['approved'] = '<span class="badge bg-success">Ended</span>';
                 } else {
                     $applications[$key]['approved'] = '<span class="badge bg-primary">Waiting</span>';
                 }
@@ -260,18 +263,20 @@ class PortalCompaniesApplication extends Controller
             //Where
             $where = array($inputTYPE => $inputID);
             // Using $where select internship and student from applications using select
-            $application = $this->db->select($this->Table, 'internship as internship, student as student', $where);
+            $application = $this->db->select($this->Table, 'internship as internship, student as student, status as approved', $where);
             // Check if application is not null if is not null return array 0 else null use ternar operator
             $application = (!is_null($application)) ? $application[0] : null;
             // Get internship and student from applications using select
             $internship = $application['internship'];
             $student = $application['student'];
+            $approved = $application['approved'];
 
             // Get Details getStudentDetails
             $found = $this->getStudentDetails($internship, $student);
             $data['studentInfo'] = (!is_null($found)) ? $found['student'] : null;
             $data['internshipInfo'] = (!is_null($found)) ? $found['internship'] : null;
             $data['curriculumInfo'] = (!is_null($found)) ? $found['curriculum'] : null;
+            $data['approved_status'] = (!is_null($approved)) ? $approved : null;
 
             // Select description from applications where [id => $inputID] using select_single add value to $data['description']
             $data['description'] = $this->db->select_single($this->Table, 'description', $where);
@@ -353,17 +358,30 @@ class PortalCompaniesApplication extends Controller
             // Input Validation Success
             if ($this->valid->validation_check($valid) === false) {
 
-                if ($this->update($postData, $where)) {
-                    //Notification
-                    $this->modal->notify->set('success');
-                    $message = 'Application hase been Approved';
+                // Check if application was completed
+                $appl_status = $this->db->select_single($this->Table, 'status', $where);
 
-                    //Redirect to Profile Edit Page
-                    $this->edit('edit', 'id', $application, $message);
+                // Update
+                if ($appl_status != 3) {
+                    if ($this->update($postData, $where)) {
+                        //Notification
+                        $this->modal->notify->set('success');
+                        $message = 'Application has been Approved';
+
+                        //Redirect to Profile Edit Page
+                        $this->edit('edit', 'id', $application, $message);
+                    } else {
+                        //Notification
+                        $this->modal->notify->set('error');
+                        $message = 'System could not approved the Application';
+
+                        //Redirect to Profile Edit Page
+                        $this->edit('edit', 'id', $application, $message);
+                    }
                 } else {
                     //Notification
                     $this->modal->notify->set('error');
-                    $message = 'System could not approved the Application';
+                    $message = "This Internship ended, can't be approved now";
 
                     //Redirect to Profile Edit Page
                     $this->edit('edit', 'id', $application, $message);
@@ -406,10 +424,78 @@ class PortalCompaniesApplication extends Controller
             // Input Validation Success
             if ($this->valid->validation_check($valid) === false) {
 
+                // Check if application was completed
+                $appl_status = $this->db->select_single($this->Table, 'status', $where);
+
+                // Update
+                if ($appl_status != 3) {
+                    if ($this->update($postData, $where)) {
+                        //Notification
+                        $this->modal->notify->set('success');
+                        $message = 'Application has been Approved';
+
+                        //Redirect to Profile Edit Page
+                        $this->edit('edit', 'id', $application, $message);
+                    } else {
+                        //Notification
+                        $this->modal->notify->set('error');
+                        $message = 'System could not approved the Application';
+
+                        //Redirect to Profile Edit Page
+                        $this->edit('edit', 'id', $application, $message);
+                    }
+                } else {
+                    //Notification
+                    $this->modal->notify->set('error');
+                    $message = "This Internship ended, can't be approved now";
+
+                    //Redirect to Profile Edit Page
+                    $this->edit('edit', 'id', $application, $message);
+                }
+            } else {
+
+                $this->modal->notify->set('error');
+                $message = 'Please check the fields, and try again'; //Notification Message				
+
+                // Account Not Active
+                $this->edit('edit', 'id', $application, $message);
+            }
+        } elseif ($type == 'completed') {
+            // Get Form Data
+            $formData = $this->modal->load->input();
+            $emptyValues = $this->modal->load->emptyArrayKey($formData);
+
+            // Validation Rules
+            $rules = array(
+                'application' => 'required|integer',
+                'response' => 'max:1000',
+            );
+            // Validation using $this->valid
+            $valid = $this->valid->validate($formData, $rules);
+
+            // Unset values using load->unset
+            $postData = $this->modal->load->unset($formData, $emptyValues);
+
+            // Get user ID from session using auth->auth_get_session
+            $application = $postData['application'];
+
+            // Array Where id = internship id
+            $where = array('id' => $application);
+            // $postData flg = 0
+            $postData['viewed'] = 1;
+            $postData['status'] = 3;
+
+            // Unset
+            $postData = $this->modal->load->unset($postData, 'application');
+
+            // Input Validation Success
+            if ($this->valid->validation_check($valid) === false) {
+
+                // Check if application was completed
                 if ($this->update($postData, $where)) {
                     //Notification
                     $this->modal->notify->set('success');
-                    $message = 'Application hase been Approved';
+                    $message = 'Intership has been completed';
 
                     //Redirect to Profile Edit Page
                     $this->edit('edit', 'id', $application, $message);
