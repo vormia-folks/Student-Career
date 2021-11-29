@@ -61,6 +61,10 @@ $route["portal/student/application/update"] = "PortalStudentsApplication/valid/u
 $route["portal/student/application/delete"] = "PortalStudentsApplication/valid/delete"; //Delete
 $route["portal/student/application/view"] = "PortalStudentsApplication/valid/view"; //View
 
+// Rating
+$route["portal/student/rating"] = "PortalStudentsRating/index"; //Index
+$route["portal/student/rating/view"] = "PortalStudentsRating/edit/edit"; //Edit
+
 /**
  * PORTAL COMPANIES
  */
@@ -89,3 +93,5 @@ $route["portal/company/application/completed"] = "PortalCompaniesApplication/val
 
 // Rating
 $route["portal/company/rating"] = "PortalCompaniesRating/index"; //Index
+$route["portal/company/rating/view"] = "PortalCompaniesRating/edit/edit"; //Edit
+$route["portal/company/rating/rate"] = "PortalCompaniesRating/valid/rate"; //Update

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 09, 2021 at 06:47 PM
+-- Generation Time: Nov 29, 2021 at 05:30 AM
 -- Server version: 5.7.32
 -- PHP Version: 7.4.12
 
@@ -44,7 +44,8 @@ CREATE TABLE `applications` (
 --
 
 INSERT INTO `applications` (`application_id`, `application_internship`, `application_student`, `application_description`, `application_viewed`, `application_status`, `application_response`, `application_stamp`, `application_flg`) VALUES
-(1, 5, 3, 'I will do my best Two', 1, 1, 'Good approved', '2021-11-08 11:50:54', 1);
+(1, 5, 3, 'I will do my best Two', 1, 1, 'Good approved', '2021-11-08 11:50:54', 1),
+(2, 6, 10, 'I know C, Java and PHP', 1, 3, 'We have approved', '2021-11-29 05:04:23', 1);
 
 -- --------------------------------------------------------
 
@@ -69,7 +70,8 @@ CREATE TABLE `companies` (
 INSERT INTO `companies` (`company_id`, `company_email`, `company_mobile`, `company_organization`, `company_password`, `company_stamp`, `company_flg`) VALUES
 (2, 'info@eabl.com', '713549110', 2, '7d38307ef52e802145060851c5225f7e02dd9581', '2021-11-07 13:24:50', 1),
 (3, 'info@safaricom.co.ke', '', 1, '7d38307ef52e802145060851c5225f7e02dd9581', '2021-11-07 13:46:21', 1),
-(4, 'info@kcbgroup.com', '', 3, '7d38307ef52e802145060851c5225f7e02dd9581', '2021-11-07 13:47:48', 1);
+(4, 'info@kcbgroup.com', '', 3, '7d38307ef52e802145060851c5225f7e02dd9581', '2021-11-07 13:47:48', 1),
+(5, 'info@smartweb.co.ke', '', 5, '7d38307ef52e802145060851c5225f7e02dd9581', '2021-11-29 05:01:53', 1);
 
 -- --------------------------------------------------------
 
@@ -123,7 +125,8 @@ INSERT INTO `interships` (`intership_id`, `intership_organization`, `intership_a
 (2, 3, 6, 12, 2, 'paid', NULL, NULL, '2021-11-08 04:18:14', 1),
 (3, 3, 8, 14, 11, 'paid', 2, 'If well archived we can hire for a long term employment Job', '2021-11-08 04:29:45', 1),
 (4, 3, 5, 3, 9, 'none-paid', 3, NULL, '2021-11-08 04:30:16', 1),
-(5, 3, 5, 3, 11, 'paid', 1, 'Expert in Web and mobile App development', '2021-11-08 04:43:11', 0);
+(5, 3, 5, 3, 11, 'paid', 1, 'Expert in Web and mobile App development', '2021-11-08 04:43:11', 0),
+(6, 5, 7, 3, 10, 'none-paid', NULL, 'We need a programmer', '2021-11-29 05:02:48', 1);
 
 -- --------------------------------------------------------
 
@@ -156,7 +159,9 @@ INSERT INTO `logins` (`login_id`, `login_email`, `login_account`, `login_type`, 
 (10, 'info@eabl.com', 2, 'company', '2021-11-07 13:24:50', 1),
 (11, 'info@safaricom.co.ke', 3, 'company', '2021-11-07 13:46:21', 1),
 (12, 'info@kcbgroup.com', 4, 'company', '2021-11-07 13:47:48', 1),
-(13, '13s01acs02@anu.ac.ke', 9, 'student', '2021-11-09 11:49:09', 1);
+(13, '13s01acs02@anu.ac.ke', 9, 'student', '2021-11-09 11:49:09', 1),
+(14, 'info@smartweb.co.ke', 5, 'company', '2021-11-29 05:01:53', 1),
+(15, '16j03acs020@anu.ac.ke', 10, 'student', '2021-11-29 05:03:45', 1);
 
 -- --------------------------------------------------------
 
@@ -215,7 +220,24 @@ CREATE TABLE `organizations` (
 INSERT INTO `organizations` (`organization_id`, `organization_name`, `organization_website`, `organization_toplevel`, `organization_stamp`, `organization_flg`) VALUES
 (1, 'Safaricom', 'www.safaricom.co.ke', 'safaricom.co.ke', '2021-11-07 13:05:22', 1),
 (2, 'East African Breweries', 'www.eabl.com', 'eabl.com', '2021-11-07 13:10:06', 1),
-(3, 'KCB Bank Kenya Limited', 'ke.kcbgroup.com', 'kcbgroup.com', '2021-11-07 13:10:06', 1);
+(3, 'KCB Bank Kenya Limited', 'ke.kcbgroup.com', 'kcbgroup.com', '2021-11-07 13:10:06', 1),
+(4, 'Standard Chattered Bank Bank', 'ke.scbk.com', 'scbk.com', '2021-11-07 13:10:06', 1),
+(5, 'Smart web Kenya Ltd', 'smartweb.co.ke', 'smartweb.co.ke', '2021-11-07 13:10:06', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ratings`
+--
+
+CREATE TABLE `ratings` (
+  `rating_id` bigint(20) NOT NULL,
+  `rating_application` bigint(20) NOT NULL,
+  `rating_student` bigint(20) NOT NULL,
+  `rating_score` int(11) NOT NULL DEFAULT '0',
+  `rating_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `rating_flg` int(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -249,7 +271,8 @@ INSERT INTO `students` (`student_id`, `student_first_name`, `student_last_name`,
 (6, 'Brain', 'Obebo', '17j01acs@anu.ac.ke', '', NULL, 1, '7d38307ef52e802145060851c5225f7e02dd9581', '2021-11-05 14:36:23', 1),
 (7, 'Alpha', 'Guru', 'alphaguru@kemu.ac.ke', '', NULL, 3, '7d38307ef52e802145060851c5225f7e02dd9581', '2021-11-05 14:50:41', 1),
 (8, 'Allan', 'Mukami', '20allan@spu.ac.ke', '', NULL, 2, '7d38307ef52e802145060851c5225f7e02dd9581', '2021-11-07 08:19:55', 1),
-(9, 'Brian', 'Obebo', '13s01acs02@anu.ac.ke', '708229611', NULL, 1, '7d38307ef52e802145060851c5225f7e02dd9581', '2021-11-09 11:49:09', 1);
+(9, 'Brian', 'Obebo', '13s01acs02@anu.ac.ke', '708229611', NULL, 1, '7d38307ef52e802145060851c5225f7e02dd9581', '2021-11-09 11:49:09', 1),
+(10, 'Mathew', 'Amos', '16j03acs020@anu.ac.ke', '', NULL, 1, '7d38307ef52e802145060851c5225f7e02dd9581', '2021-11-29 05:03:45', 1);
 
 -- --------------------------------------------------------
 
@@ -273,7 +296,8 @@ CREATE TABLE `universities` (
 INSERT INTO `universities` (`university_id`, `university_name`, `university_website`, `university_toplevel`, `university_stamp`, `university_flg`) VALUES
 (1, 'Africa Nazarene University', 'www.anu.ac.ke', 'anu.ac.ke', '2021-11-07 12:35:58', 1),
 (2, 'St Pauls University', 'www.spu.ac.ke', 'spu.ac.ke', '2021-11-07 12:38:45', 1),
-(3, 'Kenya Methodist University', 'www.kemu.ac.ke', 'kemu.ac.ke', '2021-11-07 12:41:07', 1);
+(3, 'Kenya Methodist University', 'www.kemu.ac.ke', 'kemu.ac.ke', '2021-11-07 12:41:07', 1),
+(4, 'Nairobi University', 'www.uon.ac.ke', 'uon.ac.ke', '2021-11-07 12:41:07', 1);
 
 --
 -- Indexes for dumped tables
@@ -335,6 +359,14 @@ ALTER TABLE `organizations`
   ADD PRIMARY KEY (`organization_id`);
 
 --
+-- Indexes for table `ratings`
+--
+ALTER TABLE `ratings`
+  ADD PRIMARY KEY (`rating_id`),
+  ADD KEY `rating_application` (`rating_application`),
+  ADD KEY `rating_student` (`rating_student`);
+
+--
 -- Indexes for table `students`
 --
 ALTER TABLE `students`
@@ -355,13 +387,13 @@ ALTER TABLE `universities`
 -- AUTO_INCREMENT for table `applications`
 --
 ALTER TABLE `applications`
-  MODIFY `application_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `application_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `companies`
 --
 ALTER TABLE `companies`
-  MODIFY `company_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `company_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `curriculums`
@@ -373,13 +405,13 @@ ALTER TABLE `curriculums`
 -- AUTO_INCREMENT for table `interships`
 --
 ALTER TABLE `interships`
-  MODIFY `intership_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `intership_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `logins`
 --
 ALTER TABLE `logins`
-  MODIFY `login_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `login_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `options`
@@ -391,19 +423,25 @@ ALTER TABLE `options`
 -- AUTO_INCREMENT for table `organizations`
 --
 ALTER TABLE `organizations`
-  MODIFY `organization_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `organization_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `ratings`
+--
+ALTER TABLE `ratings`
+  MODIFY `rating_id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `student_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `student_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `universities`
 --
 ALTER TABLE `universities`
-  MODIFY `university_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `university_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -441,6 +479,13 @@ ALTER TABLE `interships`
   ADD CONSTRAINT `interships_ibfk_3` FOREIGN KEY (`intership_attachment`) REFERENCES `options` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `interships_ibfk_4` FOREIGN KEY (`intership_availability`) REFERENCES `options` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `interships_ibfk_5` FOREIGN KEY (`intership_major`) REFERENCES `options` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `ratings`
+--
+ALTER TABLE `ratings`
+  ADD CONSTRAINT `ratings_ibfk_1` FOREIGN KEY (`rating_application`) REFERENCES `applications` (`application_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ratings_ibfk_2` FOREIGN KEY (`rating_student`) REFERENCES `students` (`student_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `students`

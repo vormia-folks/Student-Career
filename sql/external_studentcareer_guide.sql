@@ -276,6 +276,33 @@ ALTER TABLE `applications`
 
 -- --------------------------------------------------------
 
+--
+-- Table structure for table `ratings`
+--
+
+CREATE TABLE `ratings` (
+  `rating_id` bigint(20) NOT NULL,
+  `rating_application` bigint(20) NOT NULL,
+  `rating_student` bigint(20) NOT NULL,
+  `rating_score` int(11) NOT NULL DEFAULT '0',
+  `rating_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `rating_flg` int(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+ALTER TABLE `ratings`
+  ADD PRIMARY KEY (`rating_id`),
+  ADD FOREIGN KEY (`rating_application`) REFERENCES `applications` (`application_id`)  ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD FOREIGN KEY (`rating_student`) REFERENCES `students` (`student_id`)  ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- AUTO_INCREMENT for table `applications`
+--
+ALTER TABLE `ratings`
+  MODIFY `rating_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+-- --------------------------------------------------------
+
 -- ================================================================ --
 
 
